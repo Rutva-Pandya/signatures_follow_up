@@ -116,18 +116,30 @@ class LM():
                 ])
                 for tok_hiddens in hiddens.to("cuda") # move to same device as tuned_lens
             ])
+            # Move to CPU before log_softmax to avoid OOM on large vocabs
+            logits_cpu = logits.cpu()
+            del logits
+            torch.cuda.empty_cache()
         else:
-            # Use standard logit lens.
-            logits = self.lm_head(self.layer_norm(hiddens))
+            # Use standard logit lens with layer-wise processing for memory efficiency
+            # Process one layer at a time to avoid huge intermediate tensors
+            n_tokens, n_layers, hidden_size = hiddens.shape
+            logits_list = []
 
-        # Move to CPU before log_softmax to avoid OOM on large vocabs
-        logits_cpu = logits.cpu()
+            for layer_idx in range(n_layers):
+                # Process one layer at a time
+                layer_hiddens = hiddens[:, layer_idx:layer_idx+1, :]
+                layer_logits = self.lm_head(self.layer_norm(layer_hiddens))
+                # Immediately move to CPU
+                logits_list.append(layer_logits.cpu())
+                # Clean up
+                del layer_logits, layer_hiddens
+                torch.cuda.empty_cache()
+
+            logits_cpu = torch.cat(logits_list, dim=1)
+            del logits_list
+
         logprobs = logits_cpu.log_softmax(dim=-1)
-
-        # Clear GPU memory
-        del logits
-        torch.cuda.empty_cache()
-
         return logits_cpu, logprobs
 
     def logprobs_and_logit_diffs_all_layers(
