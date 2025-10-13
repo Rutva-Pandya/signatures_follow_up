@@ -104,7 +104,7 @@ class LM():
 
         Args:
         * hiddens: Tensor (n_tokens x n_layers x hidden_size)
-        
+
         Returns:
         * logits: Tensor (n_tokens x n_layers x vocab_size)
         * logprobs: Tensor (n_tokens x n_layers x vocab_size)
@@ -119,8 +119,16 @@ class LM():
         else:
             # Use standard logit lens.
             logits = self.lm_head(self.layer_norm(hiddens))
-        logprobs = logits.log_softmax(dim=-1)
-        return logits, logprobs
+
+        # Move to CPU before log_softmax to avoid OOM on large vocabs
+        logits_cpu = logits.cpu()
+        logprobs = logits_cpu.log_softmax(dim=-1)
+
+        # Clear GPU memory
+        del logits
+        torch.cuda.empty_cache()
+
+        return logits_cpu, logprobs
 
     def logprobs_and_logit_diffs_all_layers(
         self,
@@ -148,16 +156,13 @@ class LM():
                 # Get "raw" hiddens and "deltas" between hiddens (i-->i+1).
                 hiddens = torch.cat(hiddens_l, dim=1).save()
                 hidden_deltas = (hiddens[:, 1:, :]  - hiddens[:, :-1, :]).save()
+
         # Get logits and logprobs using logit lens or tuned lens.
+        # apply_lens now returns CPU tensors to avoid OOM
         logits, logprobs = self.apply_lens(hiddens)
         logits_deltas, logprobs_deltas = self.apply_lens(hidden_deltas)
 
-        # Move tensors to CPU to free GPU memory immediately
-        logits = logits.cpu()
-        logprobs = logprobs.cpu()
-        logits_deltas = logits_deltas.cpu()
-        logprobs_deltas = logprobs_deltas.cpu()
-
+        # Tensors are already on CPU from apply_lens
         # Clear GPU cache to prevent memory buildup
         torch.cuda.empty_cache()
 
