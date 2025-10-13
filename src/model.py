@@ -50,6 +50,7 @@ class LM():
         model = AutoModelForCausalLM.from_pretrained(
             model_name,
             cache_dir=cache_dir,
+            use_safetensors=True,
             **load_kwargs
         )
         print(model)
@@ -87,6 +88,10 @@ class LM():
             self.layers = self.model.backbone.layers
             self.layer_norm = self.model.backbone.norm_f
             self.lm_head = self.model.lm_head
+        elif self.model_family == "rwkv":
+            self.layers = self.model.rwkv.blocks
+            self.layer_norm = self.model.rwkv.ln_out
+            self.lm_head = self.model.head
         else:
             raise ValueError(f"Unsupported model family: {self.model_family}")
 
@@ -129,15 +134,33 @@ class LM():
         with torch.no_grad():
             with self.model.trace(text) as tracer:
                 # Get hidden representations.
-                hiddens_l = [
-                    layer.output[0][0, :].unsqueeze(1) for layer in self.layers
-                ]
+                # Handle different output structures for different model families
+                if self.model_family in ["mamba", "rwkv"]:
+                    # Mamba and RWKV return outputs directly without tuple wrapping
+                    hiddens_l = [
+                        layer.output[0, :].unsqueeze(1) for layer in self.layers
+                    ]
+                else:
+                    # Transformer models return (hidden_states, ) tuple
+                    hiddens_l = [
+                        layer.output[0][0, :].unsqueeze(1) for layer in self.layers
+                    ]
                 # Get "raw" hiddens and "deltas" between hiddens (i-->i+1).
                 hiddens = torch.cat(hiddens_l, dim=1).save()
                 hidden_deltas = (hiddens[:, 1:, :]  - hiddens[:, :-1, :]).save()
         # Get logits and logprobs using logit lens or tuned lens.
         logits, logprobs = self.apply_lens(hiddens)
         logits_deltas, logprobs_deltas = self.apply_lens(hidden_deltas)
+
+        # Move tensors to CPU to free GPU memory immediately
+        logits = logits.cpu()
+        logprobs = logprobs.cpu()
+        logits_deltas = logits_deltas.cpu()
+        logprobs_deltas = logprobs_deltas.cpu()
+
+        # Clear GPU cache to prevent memory buildup
+        torch.cuda.empty_cache()
+
         return logits, logprobs, logits_deltas, logprobs_deltas
 
     def rank_of_token_all_layers(
