@@ -31,65 +31,28 @@ if ! conda env list | grep -q "^mamba_exp "; then
     conda activate mamba_exp
     echo "Installing packages..."
 
-    # Install core packages with specific versions to avoid conflicts
+    # Install core packages
     echo "Installing PyTorch and dependencies..."
-    pip install torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu118
-    pip install "numpy<2.0" pandas packaging ninja
-    pip install "typing-extensions>=4.14.1"
-    pip install transformers==4.36.2 tuned-lens
+    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+    pip install pandas numpy tuned-lens
 
-    # Install compatible nnsight version (0.2.x works with torch 2.1.2)
-    pip install "nnsight<0.3"
+    # Install transformers with Mamba support (requires >= 4.39.0)
+    pip install "transformers>=4.39.0"
 
-    # Install triton (required by mamba-ssm but won't upgrade torch)
-    pip install triton
-
-    # Try to download pre-built wheels for mamba-ssm and causal-conv1d
-    # These are built for torch 2.1.2 + CUDA 11.8
-    echo "Attempting to install pre-built mamba-ssm wheels..."
-
-    # Try installing from GitHub releases (pre-built wheels)
-    pip install https://github.com/Dao-AILab/causal-conv1d/releases/download/v1.1.0/causal_conv1d-1.1.0+cu118torch2.1cxx11abiTRUE-cp310-cp310-linux_x86_64.whl 2>/dev/null
-
-    if python -c "import causal_conv1d" 2>/dev/null; then
-        echo "✓ causal-conv1d installed from pre-built wheel"
-    else
-        echo "Pre-built wheel failed, trying PyPI with --no-deps..."
-        pip install causal-conv1d==1.1.0 --no-deps --no-build-isolation
-    fi
-
-    # Install mamba-ssm pre-built wheel
-    pip install https://github.com/state-spaces/mamba/releases/download/v1.2.0.post1/mamba_ssm-1.2.0.post1+cu118torch2.1cxx11abiTRUE-cp310-cp310-linux_x86_64.whl 2>/dev/null
-
-    if python -c "import mamba_ssm" 2>/dev/null; then
-        echo "✓ mamba-ssm installed from pre-built wheel"
-    else
-        echo "Pre-built wheel failed, trying PyPI with --no-deps..."
-        pip install mamba-ssm==1.2.0.post1 --no-deps --no-build-isolation
-    fi
-
-    # Verify torch version wasn't upgraded
-    TORCH_VERSION=$(python -c "import torch; print(torch.__version__)" 2>/dev/null || echo "error")
-    echo "Final torch version: $TORCH_VERSION"
-
-    if [[ ! "$TORCH_VERSION" =~ ^2\.1\.2 ]]; then
-        echo "ERROR: Torch was upgraded to $TORCH_VERSION!"
-        echo "Force reinstalling torch 2.1.2..."
-        pip install --force-reinstall --no-deps torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu118
-    fi
+    # Install latest nnsight
+    pip install nnsight
 
     # Verify all imports work
     echo ""
     echo "Verifying package installation..."
     python -c "import torch; print(f'✓ torch: {torch.__version__}')"
-    python -c "import transformers; print('✓ transformers OK')"
+    python -c "import transformers; print(f'✓ transformers: {transformers.__version__}')"
     python -c "import nnsight; print('✓ nnsight OK')"
     python -c "import tuned_lens; print('✓ tuned_lens OK')"
-
-    # Check mamba-ssm (may need CUDA libraries loaded)
-    if ! python -c "import mamba_ssm; import causal_conv1d; print('✓ mamba-ssm and causal-conv1d OK')" 2>/dev/null; then
-        echo "⚠ WARNING: mamba_ssm import failed, but may work when CUDA is loaded on GPU node"
-    fi
+    python -c "import pandas, numpy; print('✓ pandas and numpy OK')"
+    echo ""
+    echo "✓ All packages installed successfully"
+    echo "Note: Using transformers native Mamba support (no mamba-ssm needed)"
 else
     conda activate mamba_exp
 fi
