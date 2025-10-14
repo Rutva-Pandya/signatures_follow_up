@@ -64,6 +64,7 @@ We've added support for **Mamba-1** (Selective State Space Models) to enable com
 ```bash
 torch>=2.4.0 (with CUDA 11.8)
 transformers>=4.39.0  # Native Mamba support
+bitsandbytes          # Required for 4-bit quantization (syllogism task)
 nnsight>=0.3
 pandas
 numpy

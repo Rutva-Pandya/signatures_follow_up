@@ -58,6 +58,9 @@ if ! conda env list | grep -q "^mamba_exp "; then
     # Install transformers with Mamba support (requires >= 4.39.0)
     pip install "transformers>=4.39.0"
 
+    # Install bitsandbytes for 4-bit quantization (needed for syllogism task)
+    pip install bitsandbytes
+
     # Install latest nnsight
     pip install nnsight
 
@@ -66,6 +69,7 @@ if ! conda env list | grep -q "^mamba_exp "; then
     echo "Verifying package installation..."
     python -c "import torch; print(f'✓ torch: {torch.__version__}')"
     python -c "import transformers; print(f'✓ transformers: {transformers.__version__}')"
+    python -c "import bitsandbytes; print('✓ bitsandbytes OK')"
     python -c "import nnsight; print('✓ nnsight OK')"
     python -c "import tuned_lens; print('✓ tuned_lens OK')"
     python -c "import pandas, numpy; print('✓ pandas and numpy OK')"
