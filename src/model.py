@@ -124,23 +124,46 @@ class LM():
             # Use standard logit lens with layer-wise processing for memory efficiency
             # Process one layer at a time to avoid huge intermediate tensors
             n_tokens, n_layers, hidden_size = hiddens.shape
-            logits_list = []
 
-            for layer_idx in range(n_layers):
-                # Process one layer at a time
-                layer_hiddens = hiddens[:, layer_idx:layer_idx+1, :]
-                layer_logits = self.lm_head(self.layer_norm(layer_hiddens))
-                # Immediately move to CPU
-                logits_list.append(layer_logits.cpu())
-                # Clean up
-                del layer_logits, layer_hiddens
-                torch.cuda.empty_cache()
+            # For memory-constrained models, compute logprobs per layer to reduce peak memory
+            if self.model_family in ["mamba", "rwkv"]:
+                logits_list = []
+                logprobs_list = []
 
-            logits_cpu = torch.cat(logits_list, dim=1)
-            del logits_list
+                for layer_idx in range(n_layers):
+                    # Process one layer at a time
+                    layer_hiddens = hiddens[:, layer_idx:layer_idx+1, :]
+                    layer_logits = self.lm_head(self.layer_norm(layer_hiddens))
+                    # Compute logprobs immediately on CPU
+                    layer_logits_cpu = layer_logits.cpu()
+                    layer_logprobs = layer_logits_cpu.log_softmax(dim=-1)
 
-        logprobs = logits_cpu.log_softmax(dim=-1)
-        return logits_cpu, logprobs
+                    logits_list.append(layer_logits_cpu)
+                    logprobs_list.append(layer_logprobs)
+
+                    # Clean up
+                    del layer_logits, layer_hiddens, layer_logits_cpu, layer_logprobs
+                    torch.cuda.empty_cache()
+
+                logits_cpu = torch.cat(logits_list, dim=1)
+                logprobs = torch.cat(logprobs_list, dim=1)
+                del logits_list, logprobs_list
+                return logits_cpu, logprobs
+            else:
+                # For transformers, process all at once (original behavior)
+                logits_list = []
+
+                for layer_idx in range(n_layers):
+                    layer_hiddens = hiddens[:, layer_idx:layer_idx+1, :]
+                    layer_logits = self.lm_head(self.layer_norm(layer_hiddens))
+                    logits_list.append(layer_logits.cpu())
+                    del layer_logits, layer_hiddens
+                    torch.cuda.empty_cache()
+
+                logits_cpu = torch.cat(logits_list, dim=1)
+                del logits_list
+                logprobs = logits_cpu.log_softmax(dim=-1)
+                return logits_cpu, logprobs
 
     def logprobs_and_logit_diffs_all_layers(
         self,
@@ -171,11 +194,18 @@ class LM():
 
         # Get logits and logprobs using logit lens or tuned lens.
         # apply_lens now returns CPU tensors to avoid OOM
+        # Process hiddens and hidden_deltas sequentially to reduce peak memory
         logits, logprobs = self.apply_lens(hiddens)
+
+        # Explicitly delete hiddens from GPU before processing deltas
+        del hiddens
+        torch.cuda.empty_cache()
+
+        # Now process hidden_deltas
         logits_deltas, logprobs_deltas = self.apply_lens(hidden_deltas)
 
-        # Tensors are already on CPU from apply_lens
-        # Clear GPU cache to prevent memory buildup
+        # Clean up deltas
+        del hidden_deltas
         torch.cuda.empty_cache()
 
         return logits, logprobs, logits_deltas, logprobs_deltas
