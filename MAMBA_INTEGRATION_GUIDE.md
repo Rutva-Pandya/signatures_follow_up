@@ -50,27 +50,60 @@ We've added support for **Mamba-1** (Selective State Space Models) to enable com
 
 ## Setup
 
-### 1. Configure for Your Cluster
+### 1. Environment Requirements
 
+**Tested Configuration (JHU DSAI Cluster):**
+- **Partition**: h100 (or l40s for testing)
+- **GPU**: 1x H100 (80GB) or 1x L40S (48GB)
+- **Memory**: 128GB system RAM
+- **Time**: 6 hours for full experiments (5 tasks)
+- **Python**: 3.10
+- **CUDA**: 11.8 or 12.x
+
+**Package Versions (Reproducible):**
 ```bash
-cd scripts/
-cp cluster_config.template.sh cluster_config.sh
+torch>=2.4.0 (with CUDA 11.8)
+transformers>=4.39.0  # Native Mamba support
+nnsight>=0.3
+pandas
+numpy
+tuned-lens
 ```
 
-Edit `cluster_config.sh` and set:
-- Module loads (if your cluster uses modules)
-- Python environment activation (conda/virtualenv)
-- GPU partition name
-- GPU request format (e.g., `gpu:1`, `gpu:a100:1`)
-- Repository path
+### 2. Cluster-Specific Adjustments
 
-**Important:** Each SLURM script has a section at the top marked "ADJUST THESE FOR YOUR CLUSTER" - customize the #SBATCH directives for your cluster's:
-- Partition names
-- GPU request format
-- Time/memory limits
-- Account/QOS (if required)
+The scripts are pre-configured for JHU DSAI cluster. For other clusters, edit the `#SBATCH` headers in:
+- `scripts/slurm_mamba_integration_check.sh`
+- `scripts/slurm_run_mamba_experiment.sh`
 
-### 2. Install Dependencies
+Adjust:
+- `--partition=h100` → your GPU partition name
+- `--gres=gpu:h100:1` → your GPU request format
+- `--mem=128G` → your memory limits
+- `--time=06:00:00` → your time limits
+- Add `--account=` or `--qos=` if required
+
+**No cluster_config.sh needed** - configuration is embedded in scripts for reproducibility
+
+### 3. Quick Start (JHU DSAI Cluster)
+
+```bash
+# Clone repository
+cd /scratch/jhu35/rpandya4/
+git clone https://github.com/Rutva-Pandya/signatures_follow_up.git model-human-processing
+cd model-human-processing
+git checkout mamba-integration
+
+# Run validation test (creates environment automatically)
+sbatch scripts/slurm_mamba_integration_check.sh
+
+# Run full experiments
+sbatch scripts/slurm_run_mamba_experiment.sh state-spaces/mamba-130m-hf
+sbatch scripts/slurm_run_mamba_experiment.sh state-spaces/mamba-370m-hf
+sbatch scripts/slurm_run_mamba_experiment.sh state-spaces/mamba-1.4b-hf
+```
+
+### 4. Manual Installation (Other Clusters)
 
 On your cluster (in an interactive session or compute node):
 
