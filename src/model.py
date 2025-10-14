@@ -36,8 +36,8 @@ def initialize_lm(
 class LM():
     """Base model class for LMs evaluated in our experiments."""
     def __init__(
-        self, 
-        model_name: str, 
+        self,
+        model_name: str,
         use_tuned_lens: bool = False,
         cache_dir: str = None,
         **load_kwargs
@@ -45,6 +45,9 @@ class LM():
         # Store basic meta data about the model.
         self.model_name = model_name
         self.model_family = get_model_family(model_name)
+
+        # Check if quantization is being used
+        self.quantization_config = load_kwargs.get('quantization_config', None)
 
         # Load model.
         model = AutoModelForCausalLM.from_pretrained(
@@ -99,11 +102,16 @@ class LM():
 
         Args:
         * hiddens: Tensor (n_tokens x n_layers x hidden_size)
-        
+
         Returns:
         * logits: Tensor (n_tokens x n_layers x vocab_size)
         * logprobs: Tensor (n_tokens x n_layers x vocab_size)
         """
+        # Cast hiddens to the appropriate dtype for quantized models
+        if self.quantization_config is not None:
+            compute_dtype = self.quantization_config.bnb_4bit_compute_dtype
+            hiddens = hiddens.to(compute_dtype)
+
         if self.use_tuned_lens:
             logits = torch.stack([
                 torch.stack([
