@@ -20,17 +20,22 @@ def get_vocab_size(model):
         return 256000
     elif "falcon3" in model.lower():
         return 131000
+    elif "mamba" in model.lower():
+        return 50277
     elif "vit" in model.lower():
         return 16
-    
+
 N_LAYERS = {
     # language models
-    "gpt2": 12, "gpt2-medium": 24, "gpt2-xl": 48, 
+    "gpt2": 12, "gpt2-medium": 24, "gpt2-xl": 48,
     "Llama-2-7b-hf": 32, "Llama-2-13b-hf": 40, "Llama-2-70b-hf": 80,
     "Llama-3.1-8B": 32, "Llama-3.1-70B": 80, "Llama-3.1-405B": 126,
     "gemma-2-2b": 26, "gemma-2-9b": 42, "gemma-2-27b": 46,
     "OLMo-2-1124-7B": 32, "OLMo-2-1124-13B": 40, "OLMo-2-0325-32B": 64,
     "Falcon3-1B-Base": 18, "Falcon3-3B-Base": 22, "Falcon3-10B-Base": 40,
+    # SSM models
+    "mamba-130m-hf": 24, "mamba-370m-hf": 48, "mamba-790m-hf": 48,
+    "mamba-1.4b-hf": 48, "mamba-2.8b-hf": 64,
     # vision models
     "vit_small_patch16_224": 12, "vit_base_patch16_224": 12
 }
