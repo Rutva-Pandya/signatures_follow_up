@@ -109,8 +109,9 @@ class LM():
         """
         # Cast hiddens to the appropriate dtype for quantized models
         if self.quantization_config is not None:
-            compute_dtype = self.quantization_config.bnb_4bit_compute_dtype
-            hiddens = hiddens.to(compute_dtype)
+            # Get the dtype from the lm_head weights directly
+            target_dtype = self.lm_head.weight.dtype
+            hiddens = hiddens.to(target_dtype)
 
         if self.use_tuned_lens:
             logits = torch.stack([
