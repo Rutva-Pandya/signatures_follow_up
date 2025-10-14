@@ -129,9 +129,15 @@ class LM():
         with torch.no_grad():
             with self.model.trace(text) as tracer:
                 # Get hidden representations.
-                hiddens_l = [
-                    layer.output[0][0, :].unsqueeze(1) for layer in self.layers
-                ]
+                # For Mamba, layer.output is a tuple where [0] is the hidden state
+                if self.model_family == "mamba":
+                    hiddens_l = [
+                        layer.output[0, :, :].unsqueeze(1) for layer in self.layers
+                    ]
+                else:
+                    hiddens_l = [
+                        layer.output[0][0, :].unsqueeze(1) for layer in self.layers
+                    ]
                 # Get "raw" hiddens and "deltas" between hiddens (i-->i+1).
                 hiddens = torch.cat(hiddens_l, dim=1).save()
                 hidden_deltas = (hiddens[:, 1:, :]  - hiddens[:, :-1, :]).save()
