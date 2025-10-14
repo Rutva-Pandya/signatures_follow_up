@@ -20,7 +20,22 @@ mkdir -p logs
 
 # Load environment
 module load anaconda3/2024.02-1
-conda activate mamba_exp
+
+# Initialize conda for bash
+eval "$(conda shell.bash hook)"
+
+# Create environment if it doesn't exist
+if ! conda env list | grep -q "^mamba_exp "; then
+    echo "Creating conda environment 'mamba_exp'..."
+    conda create -n mamba_exp python=3.10 -y
+    conda activate mamba_exp
+    echo "Installing packages..."
+    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+    pip install transformers nnsight pandas numpy
+    pip install mamba-ssm causal-conv1d
+else
+    conda activate mamba_exp
+fi
 
 MODEL_NAME="state-spaces/mamba-130m-hf"
 REPO_DIR="/scratch/jhu35/rpandya4/model-human-processing"

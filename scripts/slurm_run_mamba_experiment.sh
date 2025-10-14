@@ -26,6 +26,17 @@ mkdir -p logs
 
 # Load environment
 module load anaconda3/2024.02-1
+
+# Initialize conda for bash
+eval "$(conda shell.bash hook)"
+
+# Activate environment (should already exist from tests)
+if ! conda env list | grep -q "^mamba_exp "; then
+    echo "ERROR: conda environment 'mamba_exp' not found!"
+    echo "Please run test scripts first to create the environment."
+    exit 1
+fi
+
 conda activate mamba_exp
 
 # Configuration
