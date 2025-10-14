@@ -13,18 +13,19 @@
 
 # This script runs Mamba experiments on all 5 tasks using job arrays
 # Array job 0: runs first 4 tasks sequentially (capitals-recall, capitals-recognition, animals, gender)
-# Array job 1: runs syllogism task separately (it's much more intensive)
+# Array job 1: runs syllogism task separately (it's much more intensive, uses quantization)
 #
 # Usage:
 #   sbatch scripts/slurm_run_mamba_experiment.sh <MODEL_NAME>
 #
 # Supported models:
-#   state-spaces/mamba-130m-hf   (works with 1 GPU, 128GB RAM)
-#   state-spaces/mamba-370m-hf   (may OOM on syllogism - use --reduce_precision flag)
-#   state-spaces/mamba-1.4b-hf   (may OOM on syllogism - use --reduce_precision flag)
+#   state-spaces/mamba-130m-hf   (auto-quantizes for syllogism task only)
+#   state-spaces/mamba-370m-hf   (auto-quantizes for all tasks)
+#   state-spaces/mamba-1.4b-hf   (auto-quantizes for all tasks)
 #
-# For larger models, consider using quantization:
-#   Modify the python command below to add --reduce_precision flag
+# Quantization strategy:
+#   - 130m: No quantization for first 4 tasks, 4-bit for syllogism
+#   - ≥370m: 4-bit quantization for all tasks
 
 echo "=========================================="
 echo "Mamba Experiment Runner"
@@ -89,10 +90,16 @@ fi
 
 MODEL="$1"
 
-# Determine if we need quantization for larger models
+# Determine if we need quantization
+# - Large models (>=370m): always use quantization
+# - Small models (130m): only use quantization for syllogism task
 if [[ "$MODEL" == *"370m"* ]] || [[ "$MODEL" == *"790m"* ]] || [[ "$MODEL" == *"1.4b"* ]] || [[ "$MODEL" == *"2.8b"* ]]; then
     USE_QUANTIZATION="--reduce_precision"
-    echo "Large model detected - enabling 4-bit quantization"
+    echo "Large model detected - enabling 4-bit quantization for all tasks"
+elif [ $SLURM_ARRAY_TASK_ID -eq 1 ]; then
+    # Syllogism task OOMs even on small models
+    USE_QUANTIZATION="--reduce_precision"
+    echo "Syllogism task detected - enabling 4-bit quantization"
 else
     USE_QUANTIZATION=""
     echo "Small model - no quantization needed"
