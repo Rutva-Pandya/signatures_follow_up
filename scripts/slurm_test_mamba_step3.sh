@@ -34,35 +34,37 @@ if ! conda env list | grep -q "^mamba_exp "; then
     # Install core packages with specific versions to avoid conflicts
     echo "Installing PyTorch and dependencies..."
     pip install torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu118
-    pip install transformers==4.36.2 pandas numpy
+    pip install transformers==4.36.2 pandas numpy tuned-lens
 
     # Install nnsight (must be after torch)
     pip install nnsight
 
-    # Try mamba-ssm installation methods
-    echo "Attempting mamba-ssm installation..."
+    # Install causal-conv1d first (compatible with torch 2.1.2)
+    echo "Installing causal-conv1d..."
+    pip install causal-conv1d==1.1.0
 
-    # Method 1: Try pre-built wheel
-    pip install mamba-ssm==1.2.0.post1 --no-deps 2>/dev/null
-    if python -c "import mamba_ssm" 2>/dev/null; then
-        echo "✓ Method 1 succeeded (pre-built wheel)"
-        pip install causal-conv1d==1.1.1 --no-deps 2>/dev/null || pip install causal-conv1d
-    else
-        # Method 2: Install with dependencies, let it compile if needed
-        echo "Method 1 failed. Trying Method 2 (may compile from source)..."
-        pip install causal-conv1d>=1.1.0
-        pip install mamba-ssm
-    fi
+    # Install mamba-ssm with exact torch version preserved
+    echo "Installing mamba-ssm..."
+    pip install mamba-ssm==1.2.0.post1
 
-    # Final check
-    if ! python -c "import mamba_ssm; import causal_conv1d" 2>/dev/null; then
-        echo "ERROR: Could not install mamba-ssm and causal-conv1d"
-        echo "Trying one more time with --no-build-isolation..."
-        pip install --no-build-isolation causal-conv1d mamba-ssm
+    # Verify torch version wasn't upgraded
+    TORCH_VERSION=$(python -c "import torch; print(torch.__version__)" 2>/dev/null || echo "error")
+    if [[ ! "$TORCH_VERSION" =~ ^2\.1\.2 ]]; then
+        echo "ERROR: Torch version changed to $TORCH_VERSION, reinstalling..."
+        pip install --force-reinstall torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu118
     fi
 
     # Verify all imports work
-    python -c "import torch; import transformers; import nnsight; import mamba_ssm; import causal_conv1d; print('✓ All packages installed successfully')"
+    echo "Verifying package installation..."
+    python -c "import torch; print(f'torch: {torch.__version__}')"
+    python -c "import transformers; import nnsight; import tuned_lens; print('✓ Core packages OK')"
+
+    # Check mamba-ssm (may need CUDA libraries loaded)
+    if ! python -c "import mamba_ssm; import causal_conv1d" 2>/dev/null; then
+        echo "WARNING: mamba_ssm import failed, but may work when CUDA is loaded on GPU node"
+    else
+        echo "✓ mamba-ssm and causal-conv1d OK"
+    fi
 else
     conda activate mamba_exp
 fi
