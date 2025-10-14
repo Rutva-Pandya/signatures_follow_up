@@ -30,9 +30,35 @@ if ! conda env list | grep -q "^mamba_exp "; then
     conda create -n mamba_exp python=3.10 -y
     conda activate mamba_exp
     echo "Installing packages..."
+
+    # Install PyTorch with CUDA 11.8
     pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
     pip install transformers nnsight pandas numpy
-    pip install mamba-ssm causal-conv1d
+
+    # Try pre-built mamba-ssm wheel from conda-forge
+    echo "Attempting mamba-ssm installation (Method 1: pip with no build isolation)..."
+    pip install --no-build-isolation mamba-ssm causal-conv1d>=1.1.0 2>/dev/null
+
+    # If that fails, try conda-forge
+    if ! python -c "import mamba_ssm" 2>/dev/null; then
+        echo "Method 1 failed. Trying Method 2: conda-forge..."
+        conda install -c conda-forge mamba-ssm -y 2>/dev/null
+    fi
+
+    # If still fails, try without causal-conv1d version constraint
+    if ! python -c "import mamba_ssm" 2>/dev/null; then
+        echo "Method 2 failed. Trying Method 3: relaxed version constraints..."
+        pip install mamba-ssm causal-conv1d --no-cache-dir
+    fi
+
+    # Final check
+    if ! python -c "import mamba_ssm" 2>/dev/null; then
+        echo "ERROR: Could not install mamba-ssm after multiple attempts"
+        echo "This may require interactive installation with specific compiler flags"
+        exit 1
+    else
+        echo "✓ mamba-ssm installed successfully"
+    fi
 else
     conda activate mamba_exp
 fi
