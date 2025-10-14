@@ -7,8 +7,8 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=128G
-#SBATCH --gres=gpu:a100:1
-#SBATCH --partition=a100
+#SBATCH --gres=gpu:l40s:1
+#SBATCH --partition=l40s
 
 echo "=========================================="
 echo "STEP 2: nnsight & Hidden Extraction Test"
@@ -31,34 +31,38 @@ if ! conda env list | grep -q "^mamba_exp "; then
     conda activate mamba_exp
     echo "Installing packages..."
 
-    # Install PyTorch with CUDA 11.8
-    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-    pip install transformers nnsight pandas numpy
+    # Install core packages with specific versions to avoid conflicts
+    echo "Installing PyTorch and dependencies..."
+    pip install torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu118
+    pip install transformers==4.36.2 pandas numpy
 
-    # Try pre-built mamba-ssm wheel from conda-forge
-    echo "Attempting mamba-ssm installation (Method 1: pip with no build isolation)..."
-    pip install --no-build-isolation mamba-ssm causal-conv1d>=1.1.0 2>/dev/null
+    # Install nnsight (must be after torch)
+    pip install nnsight
 
-    # If that fails, try conda-forge
-    if ! python -c "import mamba_ssm" 2>/dev/null; then
-        echo "Method 1 failed. Trying Method 2: conda-forge..."
-        conda install -c conda-forge mamba-ssm -y 2>/dev/null
-    fi
+    # Try mamba-ssm installation methods
+    echo "Attempting mamba-ssm installation..."
 
-    # If still fails, try without causal-conv1d version constraint
-    if ! python -c "import mamba_ssm" 2>/dev/null; then
-        echo "Method 2 failed. Trying Method 3: relaxed version constraints..."
-        pip install mamba-ssm causal-conv1d --no-cache-dir
+    # Method 1: Try pre-built wheel
+    pip install mamba-ssm==1.2.0.post1 --no-deps 2>/dev/null
+    if python -c "import mamba_ssm" 2>/dev/null; then
+        echo "✓ Method 1 succeeded (pre-built wheel)"
+        pip install causal-conv1d==1.1.1 --no-deps 2>/dev/null || pip install causal-conv1d
+    else
+        # Method 2: Install with dependencies, let it compile if needed
+        echo "Method 1 failed. Trying Method 2 (may compile from source)..."
+        pip install causal-conv1d>=1.1.0
+        pip install mamba-ssm
     fi
 
     # Final check
-    if ! python -c "import mamba_ssm" 2>/dev/null; then
-        echo "ERROR: Could not install mamba-ssm after multiple attempts"
-        echo "This may require interactive installation with specific compiler flags"
-        exit 1
-    else
-        echo "✓ mamba-ssm installed successfully"
+    if ! python -c "import mamba_ssm; import causal_conv1d" 2>/dev/null; then
+        echo "ERROR: Could not install mamba-ssm and causal-conv1d"
+        echo "Trying one more time with --no-build-isolation..."
+        pip install --no-build-isolation causal-conv1d mamba-ssm
     fi
+
+    # Verify all imports work
+    python -c "import torch; import transformers; import nnsight; import mamba_ssm; import causal_conv1d; print('✓ All packages installed successfully')"
 else
     conda activate mamba_exp
 fi
