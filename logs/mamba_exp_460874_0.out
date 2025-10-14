@@ -1,0 +1,77 @@
+==========================================
+Mamba Experiment Runner
+Job ID: 460874
+Array Task ID: 0
+Node: h14
+Started: Tue Oct 14 12:13:27 EDT 2025
+==========================================
+Large model detected - enabling 4-bit quantization for all tasks
+Running tasks sequentially: capitals-recall capitals-recognition animals gender
+
+Configuration:
+  Model: state-spaces/mamba-1.4b-hf
+  Tasks: capitals-recall capitals-recognition animals gender
+  Stimuli dir: /scratch/jhu35/rpandya4/model-human-processing/data/stimuli
+  Output dir: /scratch/jhu35/rpandya4/model-human-processing/data/model_output
+
+
+==========================================
+Running experiment: capitals-recall
+Started: Tue Oct 14 12:13:28 EDT 2025
+==========================================
+Namespace(stimuli_dir='/scratch/jhu35/rpandya4/model-human-processing/data/stimuli', output_dir='/scratch/jhu35/rpandya4/model-human-processing/data/model_output', cache_dir=None, prompt_file=None, model='state-spaces/mamba-1.4b-hf', reduce_precision=True, task=['capitals-recall'], use_tuned_lens=False)
+Using quantization
+
+==========================================
+Task finished: capitals-recall
+Exit code: 1
+Finished: Tue Oct 14 12:13:43 EDT 2025
+==========================================
+✗ Output file not found: /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/capitals-recall_mamba-1.4b-hf.csv
+
+==========================================
+Running experiment: capitals-recognition
+Started: Tue Oct 14 12:13:43 EDT 2025
+==========================================
+Namespace(stimuli_dir='/scratch/jhu35/rpandya4/model-human-processing/data/stimuli', output_dir='/scratch/jhu35/rpandya4/model-human-processing/data/model_output', cache_dir=None, prompt_file=None, model='state-spaces/mamba-1.4b-hf', reduce_precision=True, task=['capitals-recognition'], use_tuned_lens=False)
+Using quantization
+
+==========================================
+Task finished: capitals-recognition
+Exit code: 1
+Finished: Tue Oct 14 12:13:52 EDT 2025
+==========================================
+✗ Output file not found: /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/capitals-recognition_mamba-1.4b-hf.csv
+
+==========================================
+Running experiment: animals
+Started: Tue Oct 14 12:13:52 EDT 2025
+==========================================
+Namespace(stimuli_dir='/scratch/jhu35/rpandya4/model-human-processing/data/stimuli', output_dir='/scratch/jhu35/rpandya4/model-human-processing/data/model_output', cache_dir=None, prompt_file=None, model='state-spaces/mamba-1.4b-hf', reduce_precision=True, task=['animals'], use_tuned_lens=False)
+Using quantization
+
+==========================================
+Task finished: animals
+Exit code: 1
+Finished: Tue Oct 14 12:14:01 EDT 2025
+==========================================
+✗ Output file not found: /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/animals_mamba-1.4b-hf.csv
+
+==========================================
+Running experiment: gender
+Started: Tue Oct 14 12:14:01 EDT 2025
+==========================================
+Namespace(stimuli_dir='/scratch/jhu35/rpandya4/model-human-processing/data/stimuli', output_dir='/scratch/jhu35/rpandya4/model-human-processing/data/model_output', cache_dir=None, prompt_file=None, model='state-spaces/mamba-1.4b-hf', reduce_precision=True, task=['gender'], use_tuned_lens=False)
+Using quantization
+
+==========================================
+Task finished: gender
+Exit code: 1
+Finished: Tue Oct 14 12:14:09 EDT 2025
+==========================================
+✗ Output file not found: /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/gender_mamba-1.4b-hf.csv
+
+==========================================
+All tasks completed: Tue Oct 14 12:14:09 EDT 2025
+Overall exit code: 1
+==========================================
