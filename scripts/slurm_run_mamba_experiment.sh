@@ -94,6 +94,14 @@ fi
 
 MODEL="$1"
 
+# Set HuggingFace cache to scratch space to avoid filling home directory
+export HF_HOME="/scratch/jhu35/rpandya4/huggingface_cache"
+export TRANSFORMERS_CACHE="/scratch/jhu35/rpandya4/huggingface_cache"
+export HF_DATASETS_CACHE="/scratch/jhu35/rpandya4/huggingface_cache"
+mkdir -p $HF_HOME
+
+echo "Using HuggingFace cache at: $HF_HOME"
+
 # Determine if we need quantization
 # - Large models (>=370m): always use quantization
 # - Small models (130m): only use quantization for syllogism task
