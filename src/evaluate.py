@@ -12,8 +12,8 @@ from utils import (
 
 
 def _evaluate_single_item(
-    model, 
-    prefix: str, 
+    model,
+    prefix: str,
     answer_texts: list[str],
     answer_labels: list[str] = ["correct", "incorrect"],
     meta_data: Optional[dict] = None
@@ -21,10 +21,13 @@ def _evaluate_single_item(
     """
     Helper function that implements evaluation of a single stimulus.
     """
+    import torch
+    import gc
+
     # Check that answer texts correspond to labels.
     assert len(answer_texts) == len(answer_labels)
 
-    # Set up the meta data, and record the input text that 
+    # Set up the meta data, and record the input text that
     # the model conditions on (the "prefix").
     if meta_data is None:
         meta_data = {}
@@ -41,7 +44,11 @@ def _evaluate_single_item(
         sep=" "
     )
     all_ranks = model.rank_of_token_all_layers(prefix, first_tokens)
-        
+
+    # Clear GPU cache after ranks computation
+    torch.cuda.empty_cache()
+    gc.collect()
+
     # (2) Compute scores for each answer option, conditioned on the same prefix.
     # Each entry of `all_scores` is a dict with the following structure:
     #   * keys: "entropy", "sum", "mean", "first", "logits", "logits_deltas"
@@ -49,10 +56,15 @@ def _evaluate_single_item(
     # For "sum", "mean", "first", and "entropy", the value has shape (n_layers,)
     # and for "logits" and "logits_deltas" the shape is (n_layers, N) where
     # `N` is the length (# tokens) of the longest answer string
-    all_scores = [
-        model.conditional_score_all_layers(prefix, answer, sep=" ")
-        for answer in answer_texts
-    ]
+
+    # Process one answer at a time to avoid memory accumulation
+    all_scores = []
+    for answer in answer_texts:
+        score = model.conditional_score_all_layers(prefix, answer, sep=" ")
+        all_scores.append(score)
+        # Clear GPU cache after each answer
+        torch.cuda.empty_cache()
+        gc.collect()
 
     # (3) Process layerwise ranks and scores into final clean format.
     n_layers = model.n_layers
@@ -93,6 +105,11 @@ def _evaluate_single_item(
             res[f"{metric}_response_isCorrect"] = (top_option == "correct")
 
         layerwise_results.append(res)
+
+    # Clear all_scores from memory before returning
+    del all_scores, all_ranks
+    torch.cuda.empty_cache()
+    gc.collect()
 
     return layerwise_results
 
@@ -194,6 +211,12 @@ def evaluate(
             )
 
             all_scores += layerwise_scores
+
+            # Clear GPU memory after each item to prevent accumulation
+            import torch
+            import gc
+            torch.cuda.empty_cache()
+            gc.collect()
 
     scores_df = pd.DataFrame(all_scores)
     scores_df["task"] = task
