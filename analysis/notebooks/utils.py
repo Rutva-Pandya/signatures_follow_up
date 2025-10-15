@@ -47,7 +47,7 @@ MODELS = [
   "gemma-2-2b", "gemma-2-9b", "gemma-2-27b",
   "OLMo-2-1124-7B", "OLMo-2-1124-13B", "OLMo-2-0325-32B",
   "Falcon3-1B-Base", "Falcon3-3B-Base", "Falcon3-10B-Base",
-  "mamba-130m-hf", "mamba-370m-hf", "mamba-1.4b-hf"
+  "mamba-130m-hf", "mamba-370m-hf", "mamba-790m-hf", "mamba-1.4b-hf"
 ]
 VISION_MODELS = ["vit_small_patch16_224", "vit_base_patch16_224"]
 MODEL_FAMILY_MAP = {
