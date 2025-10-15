@@ -53,6 +53,7 @@ class LM():
         model = AutoModelForCausalLM.from_pretrained(
             model_name,
             cache_dir=cache_dir,
+            trust_remote_code=True,  # Required for RWKV models
             **load_kwargs
         )
         print(model)
@@ -90,6 +91,10 @@ class LM():
             self.layers = self.model.backbone.layers
             self.layer_norm = self.model.backbone.norm_f
             self.lm_head = self.model.lm_head
+        elif self.model_family == "rwkv":
+            self.layers = self.model.rwkv.blocks
+            self.layer_norm = self.model.rwkv.ln_out
+            self.lm_head = self.model.head
         else:
             raise ValueError(f"Unsupported model family: {self.model_family}")
 

@@ -7,7 +7,8 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=32G
-#SBATCH --partition=defq
+#SBATCH --gres=gpu:h100:1
+#SBATCH --partition=h100
 
 # Test RWKV architecture compatibility before running full experiments
 # This verifies that RWKV models work with our framework
