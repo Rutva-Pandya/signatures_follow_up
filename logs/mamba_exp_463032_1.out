@@ -1,0 +1,34 @@
+==========================================
+Mamba Experiment Runner
+Job ID: 463032
+Array Task ID: 1
+Node: h05
+Started: Tue Oct 14 16:48:07 EDT 2025
+==========================================
+Using HuggingFace cache at: /scratch/jhu35/rpandya4/huggingface_cache
+Syllogism task detected - enabling 4-bit quantization
+Running task: syllogism (intensive)
+
+Configuration:
+  Model: state-spaces/mamba2-130m
+  Tasks: syllogism
+  Stimuli dir: /scratch/jhu35/rpandya4/model-human-processing/data/stimuli
+  Output dir: /scratch/jhu35/rpandya4/model-human-processing/data/model_output
+
+
+==========================================
+Running experiment: syllogism
+Started: Tue Oct 14 16:48:08 EDT 2025
+==========================================
+
+==========================================
+Task finished: syllogism
+Exit code: 139
+Finished: Tue Oct 14 16:48:19 EDT 2025
+==========================================
+✗ Output file not found: /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/syllogism_mamba2-130m.csv
+
+==========================================
+All tasks completed: Tue Oct 14 16:48:19 EDT 2025
+Overall exit code: 1
+==========================================

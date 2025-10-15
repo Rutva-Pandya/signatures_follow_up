@@ -1,0 +1,128 @@
+/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+The fast path is not available because one of `(selective_state_update, causal_conv1d_fn, causal_conv1d_update)` is None. Falling back to the naive implementation. To install follow https://github.com/state-spaces/mamba/#installation and https://github.com/Dao-AILab/causal-conv1d
+Traceback (most recent call last):
+  File "/weka/scratch/jhu35/rpandya4/model-human-processing/src/run_experiment.py", line 101, in <module>
+    main()
+  File "/weka/scratch/jhu35/rpandya4/model-human-processing/src/run_experiment.py", line 44, in main
+    model = initialize_lm(
+  File "/weka/scratch/jhu35/rpandya4/model-human-processing/src/model.py", line 27, in initialize_lm
+    model = LM(
+  File "/weka/scratch/jhu35/rpandya4/model-human-processing/src/model.py", line 53, in __init__
+    model = AutoModelForCausalLM.from_pretrained(
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 277, in _wrapper
+    return func(*args, **kwargs)
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 5051, in from_pretrained
+    ) = cls._load_pretrained_model(
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 5471, in _load_pretrained_model
+    _error_msgs, disk_offload_index = load_shard_file(args)
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 847, in load_shard_file
+    disk_offload_index = _load_state_dict_into_meta_model(
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 770, in _load_state_dict_into_meta_model
+    _load_parameter_into_model(model, param_name, param.to(param_device))
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 667, in _load_parameter_into_model
+    module.load_state_dict({param_type: tensor}, strict=False, assign=True)
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/torch/nn/modules/module.py", line 2593, in load_state_dict
+    raise RuntimeError(
+RuntimeError: Error(s) in loading state_dict for Mamba2RMSNorm:
+	size mismatch for weight: copying a param with shape torch.Size([768]) from checkpoint, the shape in current model is torch.Size([4096]).
+/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+The fast path is not available because one of `(selective_state_update, causal_conv1d_fn, causal_conv1d_update)` is None. Falling back to the naive implementation. To install follow https://github.com/state-spaces/mamba/#installation and https://github.com/Dao-AILab/causal-conv1d
+Traceback (most recent call last):
+  File "/weka/scratch/jhu35/rpandya4/model-human-processing/src/run_experiment.py", line 101, in <module>
+    main()
+  File "/weka/scratch/jhu35/rpandya4/model-human-processing/src/run_experiment.py", line 44, in main
+    model = initialize_lm(
+  File "/weka/scratch/jhu35/rpandya4/model-human-processing/src/model.py", line 27, in initialize_lm
+    model = LM(
+  File "/weka/scratch/jhu35/rpandya4/model-human-processing/src/model.py", line 53, in __init__
+    model = AutoModelForCausalLM.from_pretrained(
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 277, in _wrapper
+    return func(*args, **kwargs)
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 5051, in from_pretrained
+    ) = cls._load_pretrained_model(
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 5471, in _load_pretrained_model
+    _error_msgs, disk_offload_index = load_shard_file(args)
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 847, in load_shard_file
+    disk_offload_index = _load_state_dict_into_meta_model(
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 770, in _load_state_dict_into_meta_model
+    _load_parameter_into_model(model, param_name, param.to(param_device))
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 667, in _load_parameter_into_model
+    module.load_state_dict({param_type: tensor}, strict=False, assign=True)
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/torch/nn/modules/module.py", line 2593, in load_state_dict
+    raise RuntimeError(
+RuntimeError: Error(s) in loading state_dict for Mamba2RMSNorm:
+	size mismatch for weight: copying a param with shape torch.Size([768]) from checkpoint, the shape in current model is torch.Size([4096]).
+/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+The fast path is not available because one of `(selective_state_update, causal_conv1d_fn, causal_conv1d_update)` is None. Falling back to the naive implementation. To install follow https://github.com/state-spaces/mamba/#installation and https://github.com/Dao-AILab/causal-conv1d
+Traceback (most recent call last):
+  File "/weka/scratch/jhu35/rpandya4/model-human-processing/src/run_experiment.py", line 101, in <module>
+    main()
+  File "/weka/scratch/jhu35/rpandya4/model-human-processing/src/run_experiment.py", line 44, in main
+    model = initialize_lm(
+  File "/weka/scratch/jhu35/rpandya4/model-human-processing/src/model.py", line 27, in initialize_lm
+    model = LM(
+  File "/weka/scratch/jhu35/rpandya4/model-human-processing/src/model.py", line 53, in __init__
+    model = AutoModelForCausalLM.from_pretrained(
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 277, in _wrapper
+    return func(*args, **kwargs)
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 5051, in from_pretrained
+    ) = cls._load_pretrained_model(
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 5471, in _load_pretrained_model
+    _error_msgs, disk_offload_index = load_shard_file(args)
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 847, in load_shard_file
+    disk_offload_index = _load_state_dict_into_meta_model(
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 770, in _load_state_dict_into_meta_model
+    _load_parameter_into_model(model, param_name, param.to(param_device))
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 667, in _load_parameter_into_model
+    module.load_state_dict({param_type: tensor}, strict=False, assign=True)
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/torch/nn/modules/module.py", line 2593, in load_state_dict
+    raise RuntimeError(
+RuntimeError: Error(s) in loading state_dict for Mamba2RMSNorm:
+	size mismatch for weight: copying a param with shape torch.Size([768]) from checkpoint, the shape in current model is torch.Size([4096]).
+/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+The fast path is not available because one of `(selective_state_update, causal_conv1d_fn, causal_conv1d_update)` is None. Falling back to the naive implementation. To install follow https://github.com/state-spaces/mamba/#installation and https://github.com/Dao-AILab/causal-conv1d
+Traceback (most recent call last):
+  File "/weka/scratch/jhu35/rpandya4/model-human-processing/src/run_experiment.py", line 101, in <module>
+    main()
+  File "/weka/scratch/jhu35/rpandya4/model-human-processing/src/run_experiment.py", line 44, in main
+    model = initialize_lm(
+  File "/weka/scratch/jhu35/rpandya4/model-human-processing/src/model.py", line 27, in initialize_lm
+    model = LM(
+  File "/weka/scratch/jhu35/rpandya4/model-human-processing/src/model.py", line 53, in __init__
+    model = AutoModelForCausalLM.from_pretrained(
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 604, in from_pretrained
+    return model_class.from_pretrained(
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 277, in _wrapper
+    return func(*args, **kwargs)
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 5051, in from_pretrained
+    ) = cls._load_pretrained_model(
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 5471, in _load_pretrained_model
+    _error_msgs, disk_offload_index = load_shard_file(args)
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 847, in load_shard_file
+    disk_offload_index = _load_state_dict_into_meta_model(
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 770, in _load_state_dict_into_meta_model
+    _load_parameter_into_model(model, param_name, param.to(param_device))
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/transformers/modeling_utils.py", line 667, in _load_parameter_into_model
+    module.load_state_dict({param_type: tensor}, strict=False, assign=True)
+  File "/home/rpandya4/.conda/envs/mamba_exp/lib/python3.10/site-packages/torch/nn/modules/module.py", line 2593, in load_state_dict
+    raise RuntimeError(
+RuntimeError: Error(s) in loading state_dict for Mamba2RMSNorm:
+	size mismatch for weight: copying a param with shape torch.Size([768]) from checkpoint, the shape in current model is torch.Size([4096]).

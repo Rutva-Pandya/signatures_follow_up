@@ -1,16 +1,16 @@
 ==========================================
 Mamba Experiment Runner
-Job ID: 461023
+Job ID: 464930
 Array Task ID: 1
-Node: h01
-Started: Tue Oct 14 13:09:04 EDT 2025
+Node: h08
+Started: Wed Oct 15 00:21:29 EDT 2025
 ==========================================
 Using HuggingFace cache at: /scratch/jhu35/rpandya4/huggingface_cache
 Large model detected - enabling 4-bit quantization for all tasks
 Running task: syllogism (intensive)
 
 Configuration:
-  Model: state-spaces/mamba-1.4b-hf
+  Model: state-spaces/mamba-790m-hf
   Tasks: syllogism
   Stimuli dir: /scratch/jhu35/rpandya4/model-human-processing/data/stimuli
   Output dir: /scratch/jhu35/rpandya4/model-human-processing/data/model_output
@@ -18,29 +18,29 @@ Configuration:
 
 ==========================================
 Running experiment: syllogism
-Started: Tue Oct 14 13:09:06 EDT 2025
+Started: Wed Oct 15 00:21:33 EDT 2025
 ==========================================
-Namespace(stimuli_dir='/scratch/jhu35/rpandya4/model-human-processing/data/stimuli', output_dir='/scratch/jhu35/rpandya4/model-human-processing/data/model_output', cache_dir=None, prompt_file=None, model='state-spaces/mamba-1.4b-hf', reduce_precision=True, task=['syllogism'], use_tuned_lens=False)
+Namespace(stimuli_dir='/scratch/jhu35/rpandya4/model-human-processing/data/stimuli', output_dir='/scratch/jhu35/rpandya4/model-human-processing/data/model_output', cache_dir=None, prompt_file=None, model='state-spaces/mamba-790m-hf', reduce_precision=True, task=['syllogism'], use_tuned_lens=False)
 Using quantization
 MambaForCausalLM(
   (backbone): MambaModel(
-    (embeddings): Embedding(50280, 2048)
+    (embeddings): Embedding(50280, 1536)
     (layers): ModuleList(
       (0-47): 48 x MambaBlock(
-        (norm): MambaRMSNorm(2048, eps=1e-05)
+        (norm): MambaRMSNorm(1536, eps=1e-05)
         (mixer): MambaMixer(
-          (conv1d): Conv1d(4096, 4096, kernel_size=(4,), stride=(1,), padding=(3,), groups=4096)
+          (conv1d): Conv1d(3072, 3072, kernel_size=(4,), stride=(1,), padding=(3,), groups=3072)
           (act): SiLUActivation()
-          (in_proj): Linear4bit(in_features=2048, out_features=8192, bias=False)
-          (x_proj): Linear4bit(in_features=4096, out_features=160, bias=False)
-          (dt_proj): Linear4bit(in_features=128, out_features=4096, bias=True)
-          (out_proj): Linear4bit(in_features=4096, out_features=2048, bias=False)
+          (in_proj): Linear4bit(in_features=1536, out_features=6144, bias=False)
+          (x_proj): Linear4bit(in_features=3072, out_features=128, bias=False)
+          (dt_proj): Linear4bit(in_features=96, out_features=3072, bias=True)
+          (out_proj): Linear4bit(in_features=3072, out_features=1536, bias=False)
         )
       )
     )
-    (norm_f): MambaRMSNorm(2048, eps=1e-05)
+    (norm_f): MambaRMSNorm(1536, eps=1e-05)
   )
-  (lm_head): Linear(in_features=2048, out_features=50280, bias=False)
+  (lm_head): Linear(in_features=1536, out_features=50280, bias=False)
 )
 Using standard logit lens
 ***** Task = SYLLOGISM *****
@@ -1772,17 +1772,17 @@ No threck are grosp.
 Conclusion: No threck are crand.
 Answer: The argument is
 * ANSWER OPTIONS: [('correct', 'invalid'), ('incorrect', 'valid')]
-Wrote results to /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/syllogism_mamba-1.4b-hf.csv
+Wrote results to /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/syllogism_mamba-790m-hf.csv
 
 ==========================================
 Task finished: syllogism
 Exit code: 0
-Finished: Tue Oct 14 13:18:26 EDT 2025
+Finished: Wed Oct 15 00:40:48 EDT 2025
 ==========================================
-✓ Output file created: /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/syllogism_mamba-1.4b-hf.csv
-175105 /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/syllogism_mamba-1.4b-hf.csv
+✓ Output file created: /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/syllogism_mamba-790m-hf.csv
+175105 /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/syllogism_mamba-790m-hf.csv
 
 ==========================================
-All tasks completed: Tue Oct 14 13:18:26 EDT 2025
+All tasks completed: Wed Oct 15 00:40:48 EDT 2025
 Overall exit code: 0
 ==========================================
