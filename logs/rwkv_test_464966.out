@@ -1,0 +1,98 @@
+==========================================
+RWKV Architecture Test
+Job ID: 464966
+Node: h08
+Started: Wed Oct 15 01:35:50 EDT 2025
+==========================================
+Using HuggingFace cache at: /scratch/jhu35/rpandya4/huggingface_cache
+
+Running RWKV architecture test...
+
+================================================================================
+RWKV ARCHITECTURE TEST
+================================================================================
+
+Loading: RWKV/rwkv-4-169m-pile
+(This may take a minute to download...)
+
+✓ Model loaded successfully
+  Model class: RwkvForCausalLM
+
+Checking layer references...
+  ✓ model.rwkv exists: True
+  ✓ model.rwkv.blocks exists: True
+  ✓ model.rwkv.ln_out exists: True
+  ✓ model.head exists: True
+
+  Number of layers: 12
+
+Testing forward pass...
+  Input: 'The capital of France is'
+  Input IDs shape: torch.Size([1, 5])
+
+  Hidden states:
+    - Number of hidden states: 13
+    - First hidden state shape: torch.Size([1, 5, 768])
+    - Last hidden state shape: torch.Size([1, 5, 768])
+    - Type: <class 'torch.Tensor'>
+  ✓ Hidden state shape matches expected format
+
+  Tokenizer:
+    - Vocab size: 50277
+    - BOS token: <|endoftext|>
+    - EOS token: <|endoftext|>
+    - PAD token: None
+    ⚠️  No pad token - will need to set to eos_token
+
+Testing logit lens decoding...
+  Logits shape: torch.Size([1, 5, 50277])
+  Expected vocab size: 50277
+  ✓ Logit decoding works correctly
+
+Testing layer output format (for nnsight integration)...
+  Checking if layer.output format is compatible...
+  (Note: This test uses output_hidden_states, actual integration uses nnsight)
+
+================================================================================
+✓ ALL TESTS PASSED!
+================================================================================
+
+Required code changes for integration:
+
+1. src/utils.py (line 57):
+   families = ['llama', 'olmo', 'gemma', 'gpt', 'falcon', 'mamba', 'rwkv']
+
+2. src/model.py (line 53):
+   Add: trust_remote_code=True to from_pretrained()
+
+3. src/model.py (lines 89-93, add after mamba block):
+   elif self.model_family == 'rwkv':
+       self.layers = self.model.rwkv.blocks
+       self.layer_norm = self.model.rwkv.ln_out
+       self.lm_head = self.model.head
+
+4. analysis/notebooks/utils.py:
+   - Add RWKV models to MODELS list
+   - Add layer counts: N_LAYERS['rwkv-4-169m-pile'] = 12
+   - Add vocab size: VOCAB_SIZE['rwkv-4-169m-pile'] = 50277
+   - Add to MODEL_FAMILY_MAP: 'rwkv-4-169m-pile': 'RWKV'
+
+5. May need to test hidden state extraction with nnsight
+   (current test uses output_hidden_states)
+
+================================================================================
+
+==========================================
+Test completed: Wed Oct 15 01:36:10 EDT 2025
+Exit code: 0
+==========================================
+
+✓ RWKV test PASSED!
+
+Next steps:
+  1. Review code changes needed (printed above)
+  2. Implement changes to src/model.py and src/utils.py
+  3. Run RWKV experiments:
+     sbatch scripts/slurm_run_rwkv_experiment.sh RWKV/rwkv-4-169m-pile
+     sbatch scripts/slurm_run_rwkv_experiment.sh RWKV/rwkv-4-430m-pile
+     sbatch scripts/slurm_run_rwkv_experiment.sh RWKV/rwkv-4-1b5-pile

@@ -1,0 +1,744 @@
+==========================================
+Mamba Experiment Runner
+Job ID: 464931
+Array Task ID: 0
+Node: h08
+Started: Wed Oct 15 00:21:29 EDT 2025
+==========================================
+Using HuggingFace cache at: /scratch/jhu35/rpandya4/huggingface_cache
+Large model detected - enabling 4-bit quantization for all tasks
+Running tasks sequentially: capitals-recall capitals-recognition animals gender
+
+Configuration:
+  Model: state-spaces/mamba-790m-hf
+  Tasks: capitals-recall capitals-recognition animals gender
+  Stimuli dir: /scratch/jhu35/rpandya4/model-human-processing/data/stimuli
+  Output dir: /scratch/jhu35/rpandya4/model-human-processing/data/model_output
+
+
+==========================================
+Running experiment: capitals-recall
+Started: Wed Oct 15 00:21:33 EDT 2025
+==========================================
+Namespace(stimuli_dir='/scratch/jhu35/rpandya4/model-human-processing/data/stimuli', output_dir='/scratch/jhu35/rpandya4/model-human-processing/data/model_output', cache_dir=None, prompt_file=None, model='state-spaces/mamba-790m-hf', reduce_precision=True, task=['capitals-recall'], use_tuned_lens=False)
+Using quantization
+MambaForCausalLM(
+  (backbone): MambaModel(
+    (embeddings): Embedding(50280, 1536)
+    (layers): ModuleList(
+      (0-47): 48 x MambaBlock(
+        (norm): MambaRMSNorm(1536, eps=1e-05)
+        (mixer): MambaMixer(
+          (conv1d): Conv1d(3072, 3072, kernel_size=(4,), stride=(1,), padding=(3,), groups=3072)
+          (act): SiLUActivation()
+          (in_proj): Linear4bit(in_features=1536, out_features=6144, bias=False)
+          (x_proj): Linear4bit(in_features=3072, out_features=128, bias=False)
+          (dt_proj): Linear4bit(in_features=96, out_features=3072, bias=True)
+          (out_proj): Linear4bit(in_features=3072, out_features=1536, bias=False)
+        )
+      )
+    )
+    (norm_f): MambaRMSNorm(1536, eps=1e-05)
+  )
+  (lm_head): Linear(in_features=1536, out_features=50280, bias=False)
+)
+Using standard logit lens
+***** Task = CAPITALS-RECALL *****
+* PREFIX FOR EVALUATION: The capital of Australia is
+* ANSWER OPTIONS: [('correct', 'Canberra'), ('incorrect', 'Sydney')]
+* PREFIX FOR EVALUATION: The capital of Brazil is
+* ANSWER OPTIONS: [('correct', 'Brasilia'), ('incorrect', 'Rio de Janeiro')]
+* PREFIX FOR EVALUATION: The capital of Canada is
+* ANSWER OPTIONS: [('correct', 'Ottawa'), ('incorrect', 'Toronto')]
+* PREFIX FOR EVALUATION: The capital of India is
+* ANSWER OPTIONS: [('correct', 'New Delhi'), ('incorrect', 'Mumbai')]
+* PREFIX FOR EVALUATION: The capital of Morrocco is
+* ANSWER OPTIONS: [('correct', 'Rabat'), ('incorrect', 'Marrakesh')]
+* PREFIX FOR EVALUATION: The capital of New Zealand is
+* ANSWER OPTIONS: [('correct', 'Wellington'), ('incorrect', 'Auckland')]
+* PREFIX FOR EVALUATION: The capital of Pakistan is
+* ANSWER OPTIONS: [('correct', 'Islamabad'), ('incorrect', 'Karachi')]
+* PREFIX FOR EVALUATION: The capital of South Africa is
+* ANSWER OPTIONS: [('correct', 'Pretoria'), ('incorrect', 'Johannesburg')]
+* PREFIX FOR EVALUATION: The capital of Switzerland is
+* ANSWER OPTIONS: [('correct', 'Bern'), ('incorrect', 'Zurich')]
+* PREFIX FOR EVALUATION: The capital of Turkey is
+* ANSWER OPTIONS: [('correct', 'Ankara'), ('incorrect', 'Istanbul')]
+* PREFIX FOR EVALUATION: The capital of the United Arab Emirates is
+* ANSWER OPTIONS: [('correct', 'Abu Dhabi'), ('incorrect', 'Dubai')]
+* PREFIX FOR EVALUATION: The capital of Alabama is
+* ANSWER OPTIONS: [('correct', 'Montgomery'), ('incorrect', 'Birmingham')]
+* PREFIX FOR EVALUATION: The capital of Alaska is
+* ANSWER OPTIONS: [('correct', 'Juneau'), ('incorrect', 'Anchorage')]
+* PREFIX FOR EVALUATION: The capital of California is
+* ANSWER OPTIONS: [('correct', 'Sacramento'), ('incorrect', 'Los Angeles')]
+* PREFIX FOR EVALUATION: The capital of Connecticut is
+* ANSWER OPTIONS: [('correct', 'Hartford'), ('incorrect', 'Bridgeport')]
+* PREFIX FOR EVALUATION: The capital of Delaware is
+* ANSWER OPTIONS: [('correct', 'Dover'), ('incorrect', 'Wilmington')]
+* PREFIX FOR EVALUATION: The capital of Florida is
+* ANSWER OPTIONS: [('correct', 'Tallahassee'), ('incorrect', 'Jacksonville')]
+* PREFIX FOR EVALUATION: The capital of Illinois is
+* ANSWER OPTIONS: [('correct', 'Springfield'), ('incorrect', 'Chicago')]
+* PREFIX FOR EVALUATION: The capital of Kansas is
+* ANSWER OPTIONS: [('correct', 'Topeka'), ('incorrect', 'Wichita')]
+* PREFIX FOR EVALUATION: The capital of Kentucky is
+* ANSWER OPTIONS: [('correct', 'Frankfort'), ('incorrect', 'Louisville')]
+* PREFIX FOR EVALUATION: The capital of Louisiana is
+* ANSWER OPTIONS: [('correct', 'Baton Rouge'), ('incorrect', 'New Orleans')]
+* PREFIX FOR EVALUATION: The capital of Maine is
+* ANSWER OPTIONS: [('correct', 'Augusta'), ('incorrect', 'Portland')]
+* PREFIX FOR EVALUATION: The capital of Maryland is
+* ANSWER OPTIONS: [('correct', 'Annapolis'), ('incorrect', 'Baltimore')]
+* PREFIX FOR EVALUATION: The capital of Michigan is
+* ANSWER OPTIONS: [('correct', 'Lansing'), ('incorrect', 'Detroit')]
+* PREFIX FOR EVALUATION: The capital of Minnesota is
+* ANSWER OPTIONS: [('correct', 'St. Paul'), ('incorrect', 'Minneapolis')]
+* PREFIX FOR EVALUATION: The capital of Montana is
+* ANSWER OPTIONS: [('correct', 'Helena'), ('incorrect', 'Billings')]
+* PREFIX FOR EVALUATION: The capital of Nebraska is
+* ANSWER OPTIONS: [('correct', 'Lincoln'), ('incorrect', 'Omaha')]
+* PREFIX FOR EVALUATION: The capital of Nevada is
+* ANSWER OPTIONS: [('correct', 'Carson City'), ('incorrect', 'Las Vegas')]
+* PREFIX FOR EVALUATION: The capital of New Hampshire is
+* ANSWER OPTIONS: [('correct', 'Concord'), ('incorrect', 'Manchester')]
+* PREFIX FOR EVALUATION: The capital of New Jersey is
+* ANSWER OPTIONS: [('correct', 'Trenton'), ('incorrect', 'Newark')]
+* PREFIX FOR EVALUATION: The capital of New Mexico is
+* ANSWER OPTIONS: [('correct', 'Santa Fe'), ('incorrect', 'Albuquerque')]
+* PREFIX FOR EVALUATION: The capital of New York is
+* ANSWER OPTIONS: [('correct', 'Albany'), ('incorrect', 'New York')]
+* PREFIX FOR EVALUATION: The capital of North Carolina is
+* ANSWER OPTIONS: [('correct', 'Raleigh'), ('incorrect', 'Charlotte')]
+* PREFIX FOR EVALUATION: The capital of North Dakota is
+* ANSWER OPTIONS: [('correct', 'Bismarck'), ('incorrect', 'Fargo')]
+* PREFIX FOR EVALUATION: The capital of Oregon is
+* ANSWER OPTIONS: [('correct', 'Salem'), ('incorrect', 'Portland')]
+* PREFIX FOR EVALUATION: The capital of Pennsylvania is
+* ANSWER OPTIONS: [('correct', 'Harrisburg'), ('incorrect', 'Philadelphia')]
+* PREFIX FOR EVALUATION: The capital of South Dakota is
+* ANSWER OPTIONS: [('correct', 'Pierre'), ('incorrect', 'Sioux Falls')]
+* PREFIX FOR EVALUATION: The capital of Texas is
+* ANSWER OPTIONS: [('correct', 'Austin'), ('incorrect', 'Houston')]
+* PREFIX FOR EVALUATION: The capital of Vermont is
+* ANSWER OPTIONS: [('correct', 'Montpelier'), ('incorrect', 'Burlington')]
+* PREFIX FOR EVALUATION: The capital of Virginia is
+* ANSWER OPTIONS: [('correct', 'Richmond'), ('incorrect', 'Virginia Beach')]
+* PREFIX FOR EVALUATION: The capital of Washington is
+* ANSWER OPTIONS: [('correct', 'Olympia'), ('incorrect', 'Seattle')]
+* PREFIX FOR EVALUATION: The capital of Wisconsin is
+* ANSWER OPTIONS: [('correct', 'Madison'), ('incorrect', 'Milwaukee')]
+* PREFIX FOR EVALUATION: The capital of Austria is
+* ANSWER OPTIONS: [('correct', 'Vienna'), ('incorrect', 'Graz')]
+* PREFIX FOR EVALUATION: The capital of Egypt is
+* ANSWER OPTIONS: [('correct', 'Cairo'), ('incorrect', 'Alexandria')]
+* PREFIX FOR EVALUATION: The capital of France is
+* ANSWER OPTIONS: [('correct', 'Paris'), ('incorrect', 'Marseille')]
+* PREFIX FOR EVALUATION: The capital of Germany is
+* ANSWER OPTIONS: [('correct', 'Berlin'), ('incorrect', 'Hamburg')]
+* PREFIX FOR EVALUATION: The capital of Italy is
+* ANSWER OPTIONS: [('correct', 'Rome'), ('incorrect', 'Milan')]
+* PREFIX FOR EVALUATION: The capital of Japan is
+* ANSWER OPTIONS: [('correct', 'Tokyo'), ('incorrect', 'Yokohama')]
+* PREFIX FOR EVALUATION: The capital of Korea is
+* ANSWER OPTIONS: [('correct', 'Seoul'), ('incorrect', 'Busan')]
+* PREFIX FOR EVALUATION: The capital of Russia is
+* ANSWER OPTIONS: [('correct', 'Moscow'), ('incorrect', 'Saint Petersburg')]
+* PREFIX FOR EVALUATION: The capital of Spain is
+* ANSWER OPTIONS: [('correct', 'Madrid'), ('incorrect', 'Barcelona')]
+* PREFIX FOR EVALUATION: The capital of Sweden is
+* ANSWER OPTIONS: [('correct', 'Stockholm'), ('incorrect', 'Gothenburg')]
+* PREFIX FOR EVALUATION: The capital of the United Kingdom is
+* ANSWER OPTIONS: [('correct', 'London'), ('incorrect', 'Birmingham')]
+* PREFIX FOR EVALUATION: The capital of Arizona is
+* ANSWER OPTIONS: [('correct', 'Phoenix'), ('incorrect', 'Tucson')]
+* PREFIX FOR EVALUATION: The capital of Colorado is
+* ANSWER OPTIONS: [('correct', 'Denver'), ('incorrect', 'Colorado Springs')]
+* PREFIX FOR EVALUATION: The capital of Georgia is
+* ANSWER OPTIONS: [('correct', 'Atlanta'), ('incorrect', 'Augusta')]
+* PREFIX FOR EVALUATION: The capital of Hawaii is
+* ANSWER OPTIONS: [('correct', 'Honolulu'), ('incorrect', 'Hilo')]
+* PREFIX FOR EVALUATION: The capital of Idaho is
+* ANSWER OPTIONS: [('correct', 'Boise'), ('incorrect', 'Meridian')]
+* PREFIX FOR EVALUATION: The capital of Massachusetts is
+* ANSWER OPTIONS: [('correct', 'Boston'), ('incorrect', 'Worcester')]
+* PREFIX FOR EVALUATION: The capital of Ohio is
+* ANSWER OPTIONS: [('correct', 'Columbus'), ('incorrect', 'Cleveland')]
+* PREFIX FOR EVALUATION: The capital of Rhode Island is
+* ANSWER OPTIONS: [('correct', 'Providence'), ('incorrect', 'Warwick')]
+* PREFIX FOR EVALUATION: The capital of Tennessee is
+* ANSWER OPTIONS: [('correct', 'Nashville'), ('incorrect', 'Memphis')]
+Wrote results to /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/capitals-recall_mamba-790m-hf.csv
+
+==========================================
+Task finished: capitals-recall
+Exit code: 0
+Finished: Wed Oct 15 00:24:55 EDT 2025
+==========================================
+✓ Output file created: /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/capitals-recall_mamba-790m-hf.csv
+2977 /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/capitals-recall_mamba-790m-hf.csv
+
+==========================================
+Running experiment: capitals-recognition
+Started: Wed Oct 15 00:24:55 EDT 2025
+==========================================
+Namespace(stimuli_dir='/scratch/jhu35/rpandya4/model-human-processing/data/stimuli', output_dir='/scratch/jhu35/rpandya4/model-human-processing/data/model_output', cache_dir=None, prompt_file=None, model='state-spaces/mamba-790m-hf', reduce_precision=True, task=['capitals-recognition'], use_tuned_lens=False)
+Using quantization
+MambaForCausalLM(
+  (backbone): MambaModel(
+    (embeddings): Embedding(50280, 1536)
+    (layers): ModuleList(
+      (0-47): 48 x MambaBlock(
+        (norm): MambaRMSNorm(1536, eps=1e-05)
+        (mixer): MambaMixer(
+          (conv1d): Conv1d(3072, 3072, kernel_size=(4,), stride=(1,), padding=(3,), groups=3072)
+          (act): SiLUActivation()
+          (in_proj): Linear4bit(in_features=1536, out_features=6144, bias=False)
+          (x_proj): Linear4bit(in_features=3072, out_features=128, bias=False)
+          (dt_proj): Linear4bit(in_features=96, out_features=3072, bias=True)
+          (out_proj): Linear4bit(in_features=3072, out_features=1536, bias=False)
+        )
+      )
+    )
+    (norm_f): MambaRMSNorm(1536, eps=1e-05)
+  )
+  (lm_head): Linear(in_features=1536, out_features=50280, bias=False)
+)
+Using standard logit lens
+***** Task = CAPITALS-RECOGNITION *****
+* PREFIX FOR EVALUATION: The capital of Australia is either Canberra or Sydney. In fact, the capital of Australia is
+* ANSWER OPTIONS: [('correct', 'Canberra'), ('incorrect', 'Sydney')]
+* PREFIX FOR EVALUATION: The capital of Australia is either Sydney or Canberra. In fact, the capital of Australia is
+* ANSWER OPTIONS: [('correct', 'Canberra'), ('incorrect', 'Sydney')]
+* PREFIX FOR EVALUATION: The capital of Brazil is either Brasilia or Rio de Janeiro. In fact, the capital of Brazil is
+* ANSWER OPTIONS: [('correct', 'Brasilia'), ('incorrect', 'Rio de Janeiro')]
+* PREFIX FOR EVALUATION: The capital of Brazil is either Rio de Janeiro or Brasilia. In fact, the capital of Brazil is
+* ANSWER OPTIONS: [('correct', 'Brasilia'), ('incorrect', 'Rio de Janeiro')]
+* PREFIX FOR EVALUATION: The capital of Canada is either Ottawa or Toronto. In fact, the capital of Canada is
+* ANSWER OPTIONS: [('correct', 'Ottawa'), ('incorrect', 'Toronto')]
+* PREFIX FOR EVALUATION: The capital of Canada is either Toronto or Ottawa. In fact, the capital of Canada is
+* ANSWER OPTIONS: [('correct', 'Ottawa'), ('incorrect', 'Toronto')]
+* PREFIX FOR EVALUATION: The capital of India is either New Delhi or Mumbai. In fact, the capital of India is
+* ANSWER OPTIONS: [('correct', 'New Delhi'), ('incorrect', 'Mumbai')]
+* PREFIX FOR EVALUATION: The capital of India is either Mumbai or New Delhi. In fact, the capital of India is
+* ANSWER OPTIONS: [('correct', 'New Delhi'), ('incorrect', 'Mumbai')]
+* PREFIX FOR EVALUATION: The capital of Morrocco is either Rabat or Marrakesh. In fact, the capital of Morrocco is
+* ANSWER OPTIONS: [('correct', 'Rabat'), ('incorrect', 'Marrakesh')]
+* PREFIX FOR EVALUATION: The capital of Morrocco is either Marrakesh or Rabat. In fact, the capital of Morrocco is
+* ANSWER OPTIONS: [('correct', 'Rabat'), ('incorrect', 'Marrakesh')]
+* PREFIX FOR EVALUATION: The capital of New Zealand is either Wellington or Auckland. In fact, the capital of New Zealand is
+* ANSWER OPTIONS: [('correct', 'Wellington'), ('incorrect', 'Auckland')]
+* PREFIX FOR EVALUATION: The capital of New Zealand is either Auckland or Wellington. In fact, the capital of New Zealand is
+* ANSWER OPTIONS: [('correct', 'Wellington'), ('incorrect', 'Auckland')]
+* PREFIX FOR EVALUATION: The capital of Pakistan is either Islamabad or Karachi. In fact, the capital of Pakistan is
+* ANSWER OPTIONS: [('correct', 'Islamabad'), ('incorrect', 'Karachi')]
+* PREFIX FOR EVALUATION: The capital of Pakistan is either Karachi or Islamabad. In fact, the capital of Pakistan is
+* ANSWER OPTIONS: [('correct', 'Islamabad'), ('incorrect', 'Karachi')]
+* PREFIX FOR EVALUATION: The capital of South Africa is either Pretoria or Johannesburg. In fact, the capital of South Africa is
+* ANSWER OPTIONS: [('correct', 'Pretoria'), ('incorrect', 'Johannesburg')]
+* PREFIX FOR EVALUATION: The capital of South Africa is either Johannesburg or Pretoria. In fact, the capital of South Africa is
+* ANSWER OPTIONS: [('correct', 'Pretoria'), ('incorrect', 'Johannesburg')]
+* PREFIX FOR EVALUATION: The capital of Switzerland is either Bern or Zurich. In fact, the capital of Switzerland is
+* ANSWER OPTIONS: [('correct', 'Bern'), ('incorrect', 'Zurich')]
+* PREFIX FOR EVALUATION: The capital of Switzerland is either Zurich or Bern. In fact, the capital of Switzerland is
+* ANSWER OPTIONS: [('correct', 'Bern'), ('incorrect', 'Zurich')]
+* PREFIX FOR EVALUATION: The capital of Turkey is either Ankara or Istanbul. In fact, the capital of Turkey is
+* ANSWER OPTIONS: [('correct', 'Ankara'), ('incorrect', 'Istanbul')]
+* PREFIX FOR EVALUATION: The capital of Turkey is either Istanbul or Ankara. In fact, the capital of Turkey is
+* ANSWER OPTIONS: [('correct', 'Ankara'), ('incorrect', 'Istanbul')]
+* PREFIX FOR EVALUATION: The capital of United Arab Emirates is either Abu Dhabi or Dubai. In fact, the capital of the United Arab Emirates is
+* ANSWER OPTIONS: [('correct', 'Abu Dhabi'), ('incorrect', 'Dubai')]
+* PREFIX FOR EVALUATION: The capital of United Arab Emirates is either Dubai or Abu Dhabi. In fact, the capital of the United Arab Emirates is
+* ANSWER OPTIONS: [('correct', 'Abu Dhabi'), ('incorrect', 'Dubai')]
+* PREFIX FOR EVALUATION: The capital of Alabama is either Montgomery or Birmingham. In fact, the capital of Alabama is
+* ANSWER OPTIONS: [('correct', 'Montgomery'), ('incorrect', 'Birmingham')]
+* PREFIX FOR EVALUATION: The capital of Alabama is either Birmingham or Montgomery. In fact, the capital of Alabama is
+* ANSWER OPTIONS: [('correct', 'Montgomery'), ('incorrect', 'Birmingham')]
+* PREFIX FOR EVALUATION: The capital of Alaska is either Juneau or Anchorage. In fact, the capital of Alaska is
+* ANSWER OPTIONS: [('correct', 'Juneau'), ('incorrect', 'Anchorage')]
+* PREFIX FOR EVALUATION: The capital of Alaska is either Anchorage or Juneau. In fact, the capital of Alaska is
+* ANSWER OPTIONS: [('correct', 'Juneau'), ('incorrect', 'Anchorage')]
+* PREFIX FOR EVALUATION: The capital of California is either Sacramento or Los Angeles. In fact, the capital of California is
+* ANSWER OPTIONS: [('correct', 'Sacramento'), ('incorrect', 'Los Angeles')]
+* PREFIX FOR EVALUATION: The capital of California is either Los Angeles or Sacramento. In fact, the capital of California is
+* ANSWER OPTIONS: [('correct', 'Sacramento'), ('incorrect', 'Los Angeles')]
+* PREFIX FOR EVALUATION: The capital of Connecticut is either Hartford or Bridgeport. In fact, the capital of Connecticut is
+* ANSWER OPTIONS: [('correct', 'Hartford'), ('incorrect', 'Bridgeport')]
+* PREFIX FOR EVALUATION: The capital of Connecticut is either Bridgeport or Hartford. In fact, the capital of Connecticut is
+* ANSWER OPTIONS: [('correct', 'Hartford'), ('incorrect', 'Bridgeport')]
+* PREFIX FOR EVALUATION: The capital of Delaware is either Dover or Wilmington. In fact, the capital of Delaware is
+* ANSWER OPTIONS: [('correct', 'Dover'), ('incorrect', 'Wilmington')]
+* PREFIX FOR EVALUATION: The capital of Delaware is either Wilmington or Dover. In fact, the capital of Delaware is
+* ANSWER OPTIONS: [('correct', 'Dover'), ('incorrect', 'Wilmington')]
+* PREFIX FOR EVALUATION: The capital of Florida is either Tallahassee or Jacksonville. In fact, the capital of Florida is
+* ANSWER OPTIONS: [('correct', 'Tallahassee'), ('incorrect', 'Jacksonville')]
+* PREFIX FOR EVALUATION: The capital of Florida is either Jacksonville or Tallahassee. In fact, the capital of Florida is
+* ANSWER OPTIONS: [('correct', 'Tallahassee'), ('incorrect', 'Jacksonville')]
+* PREFIX FOR EVALUATION: The capital of Illinois is either Springfield or Chicago. In fact, the capital of Illinois is
+* ANSWER OPTIONS: [('correct', 'Springfield'), ('incorrect', 'Chicago')]
+* PREFIX FOR EVALUATION: The capital of Illinois is either Chicago or Springfield. In fact, the capital of Illinois is
+* ANSWER OPTIONS: [('correct', 'Springfield'), ('incorrect', 'Chicago')]
+* PREFIX FOR EVALUATION: The capital of Kansas is either Topeka or Wichita. In fact, the capital of Kansas is
+* ANSWER OPTIONS: [('correct', 'Topeka'), ('incorrect', 'Wichita')]
+* PREFIX FOR EVALUATION: The capital of Kansas is either Wichita or Topeka. In fact, the capital of Kansas is
+* ANSWER OPTIONS: [('correct', 'Topeka'), ('incorrect', 'Wichita')]
+* PREFIX FOR EVALUATION: The capital of Kentucky is either Frankfort or Louisville. In fact, the capital of Kentucky is
+* ANSWER OPTIONS: [('correct', 'Frankfort'), ('incorrect', 'Louisville')]
+* PREFIX FOR EVALUATION: The capital of Kentucky is either Louisville or Frankfort. In fact, the capital of Kentucky is
+* ANSWER OPTIONS: [('correct', 'Frankfort'), ('incorrect', 'Louisville')]
+* PREFIX FOR EVALUATION: The capital of Louisiana is either Baton Rouge or New Orleans. In fact, the capital of Louisiana is
+* ANSWER OPTIONS: [('correct', 'Baton Rouge'), ('incorrect', 'New Orleans')]
+* PREFIX FOR EVALUATION: The capital of Louisiana is either New Orleans or Baton Rouge. In fact, the capital of Louisiana is
+* ANSWER OPTIONS: [('correct', 'Baton Rouge'), ('incorrect', 'New Orleans')]
+* PREFIX FOR EVALUATION: The capital of Maine is either Augusta or Portland. In fact, the capital of Maine is
+* ANSWER OPTIONS: [('correct', 'Augusta'), ('incorrect', 'Portland')]
+* PREFIX FOR EVALUATION: The capital of Maine is either Portland or Augusta. In fact, the capital of Maine is
+* ANSWER OPTIONS: [('correct', 'Augusta'), ('incorrect', 'Portland')]
+* PREFIX FOR EVALUATION: The capital of Maryland is either Annapolis or Baltimore. In fact, the capital of Maryland is
+* ANSWER OPTIONS: [('correct', 'Annapolis'), ('incorrect', 'Baltimore')]
+* PREFIX FOR EVALUATION: The capital of Maryland is either Baltimore or Annapolis. In fact, the capital of Maryland is
+* ANSWER OPTIONS: [('correct', 'Annapolis'), ('incorrect', 'Baltimore')]
+* PREFIX FOR EVALUATION: The capital of Michigan is either Lansing or Detroit. In fact, the capital of Michigan is
+* ANSWER OPTIONS: [('correct', 'Lansing'), ('incorrect', 'Detroit')]
+* PREFIX FOR EVALUATION: The capital of Michigan is either Detroit or Lansing. In fact, the capital of Michigan is
+* ANSWER OPTIONS: [('correct', 'Lansing'), ('incorrect', 'Detroit')]
+* PREFIX FOR EVALUATION: The capital of Minnesota is either St. Paul or Minneapolis. In fact, the capital of Minnesota is
+* ANSWER OPTIONS: [('correct', 'St. Paul'), ('incorrect', 'Minneapolis')]
+* PREFIX FOR EVALUATION: The capital of Minnesota is either Minneapolis or St. Paul. In fact, the capital of Minnesota is
+* ANSWER OPTIONS: [('correct', 'St. Paul'), ('incorrect', 'Minneapolis')]
+* PREFIX FOR EVALUATION: The capital of Montana is either Helena or Billings. In fact, the capital of Montana is
+* ANSWER OPTIONS: [('correct', 'Helena'), ('incorrect', 'Billings')]
+* PREFIX FOR EVALUATION: The capital of Montana is either Billings or Helena. In fact, the capital of Montana is
+* ANSWER OPTIONS: [('correct', 'Helena'), ('incorrect', 'Billings')]
+* PREFIX FOR EVALUATION: The capital of Nebraska is either Lincoln or Omaha. In fact, the capital of Nebraska is
+* ANSWER OPTIONS: [('correct', 'Lincoln'), ('incorrect', 'Omaha')]
+* PREFIX FOR EVALUATION: The capital of Nebraska is either Omaha or Lincoln. In fact, the capital of Nebraska is
+* ANSWER OPTIONS: [('correct', 'Lincoln'), ('incorrect', 'Omaha')]
+* PREFIX FOR EVALUATION: The capital of Nevada is either Carson City or Las Vegas. In fact, the capital of Nevada is
+* ANSWER OPTIONS: [('correct', 'Carson City'), ('incorrect', 'Las Vegas')]
+* PREFIX FOR EVALUATION: The capital of Nevada is either Las Vegas or Carson City. In fact, the capital of Nevada is
+* ANSWER OPTIONS: [('correct', 'Carson City'), ('incorrect', 'Las Vegas')]
+* PREFIX FOR EVALUATION: The capital of New Hampshire is either Concord or Manchester. In fact, the capital of New Hampshire is
+* ANSWER OPTIONS: [('correct', 'Concord'), ('incorrect', 'Manchester')]
+* PREFIX FOR EVALUATION: The capital of New Hampshire is either Manchester or Concord. In fact, the capital of New Hampshire is
+* ANSWER OPTIONS: [('correct', 'Concord'), ('incorrect', 'Manchester')]
+* PREFIX FOR EVALUATION: The capital of New Jersey is either Trenton or Newark. In fact, the capital of New Jersey is
+* ANSWER OPTIONS: [('correct', 'Trenton'), ('incorrect', 'Newark')]
+* PREFIX FOR EVALUATION: The capital of New Jersey is either Newark or Trenton. In fact, the capital of New Jersey is
+* ANSWER OPTIONS: [('correct', 'Trenton'), ('incorrect', 'Newark')]
+* PREFIX FOR EVALUATION: The capital of New Mexico is either Santa Fe or Albuquerque. In fact, the capital of New Mexico is
+* ANSWER OPTIONS: [('correct', 'Santa Fe'), ('incorrect', 'Albuquerque')]
+* PREFIX FOR EVALUATION: The capital of New Mexico is either Albuquerque or Santa Fe. In fact, the capital of New Mexico is
+* ANSWER OPTIONS: [('correct', 'Santa Fe'), ('incorrect', 'Albuquerque')]
+* PREFIX FOR EVALUATION: The capital of New York is either Albany or New York. In fact, the capital of New York is
+* ANSWER OPTIONS: [('correct', 'Albany'), ('incorrect', 'New York')]
+* PREFIX FOR EVALUATION: The capital of New York is either New York or Albany. In fact, the capital of New York is
+* ANSWER OPTIONS: [('correct', 'Albany'), ('incorrect', 'New York')]
+* PREFIX FOR EVALUATION: The capital of North Carolina is either Raleigh or Charlotte. In fact, the capital of North Carolina is
+* ANSWER OPTIONS: [('correct', 'Raleigh'), ('incorrect', 'Charlotte')]
+* PREFIX FOR EVALUATION: The capital of North Carolina is either Charlotte or Raleigh. In fact, the capital of North Carolina is
+* ANSWER OPTIONS: [('correct', 'Raleigh'), ('incorrect', 'Charlotte')]
+* PREFIX FOR EVALUATION: The capital of North Dakota is either Bismarck or Fargo. In fact, the capital of North Dakota is
+* ANSWER OPTIONS: [('correct', 'Bismarck'), ('incorrect', 'Fargo')]
+* PREFIX FOR EVALUATION: The capital of North Dakota is either Fargo or Bismarck. In fact, the capital of North Dakota is
+* ANSWER OPTIONS: [('correct', 'Bismarck'), ('incorrect', 'Fargo')]
+* PREFIX FOR EVALUATION: The capital of Oregon is either Salem or Portland. In fact, the capital of Oregon is
+* ANSWER OPTIONS: [('correct', 'Salem'), ('incorrect', 'Portland')]
+* PREFIX FOR EVALUATION: The capital of Oregon is either Portland or Salem. In fact, the capital of Oregon is
+* ANSWER OPTIONS: [('correct', 'Salem'), ('incorrect', 'Portland')]
+* PREFIX FOR EVALUATION: The capital of Pennsylvania is either Harrisburg or Philadelphia. In fact, the capital of Pennsylvania is
+* ANSWER OPTIONS: [('correct', 'Harrisburg'), ('incorrect', 'Philadelphia')]
+* PREFIX FOR EVALUATION: The capital of Pennsylvania is either Philadelphia or Harrisburg. In fact, the capital of Pennsylvania is
+* ANSWER OPTIONS: [('correct', 'Harrisburg'), ('incorrect', 'Philadelphia')]
+* PREFIX FOR EVALUATION: The capital of South Dakota is either Pierre or Sioux Falls. In fact, the capital of South Dakota is
+* ANSWER OPTIONS: [('correct', 'Pierre'), ('incorrect', 'Sioux Falls')]
+* PREFIX FOR EVALUATION: The capital of South Dakota is either Sioux Falls or Pierre. In fact, the capital of South Dakota is
+* ANSWER OPTIONS: [('correct', 'Pierre'), ('incorrect', 'Sioux Falls')]
+* PREFIX FOR EVALUATION: The capital of Texas is either Austin or Houston. In fact, the capital of Texas is
+* ANSWER OPTIONS: [('correct', 'Austin'), ('incorrect', 'Houston')]
+* PREFIX FOR EVALUATION: The capital of Texas is either Houston or Austin. In fact, the capital of Texas is
+* ANSWER OPTIONS: [('correct', 'Austin'), ('incorrect', 'Houston')]
+* PREFIX FOR EVALUATION: The capital of Vermont is either Montpelier or Burlington. In fact, the capital of Vermont is
+* ANSWER OPTIONS: [('correct', 'Montpelier'), ('incorrect', 'Burlington')]
+* PREFIX FOR EVALUATION: The capital of Vermont is either Burlington or Montpelier. In fact, the capital of Vermont is
+* ANSWER OPTIONS: [('correct', 'Montpelier'), ('incorrect', 'Burlington')]
+* PREFIX FOR EVALUATION: The capital of Virginia is either Richmond or Virginia Beach. In fact, the capital of Virginia is
+* ANSWER OPTIONS: [('correct', 'Richmond'), ('incorrect', 'Virginia Beach')]
+* PREFIX FOR EVALUATION: The capital of Virginia is either Virginia Beach or Richmond. In fact, the capital of Virginia is
+* ANSWER OPTIONS: [('correct', 'Richmond'), ('incorrect', 'Virginia Beach')]
+* PREFIX FOR EVALUATION: The capital of Washington is either Olympia or Seattle. In fact, the capital of Washington is
+* ANSWER OPTIONS: [('correct', 'Olympia'), ('incorrect', 'Seattle')]
+* PREFIX FOR EVALUATION: The capital of Washington is either Seattle or Olympia. In fact, the capital of Washington is
+* ANSWER OPTIONS: [('correct', 'Olympia'), ('incorrect', 'Seattle')]
+* PREFIX FOR EVALUATION: The capital of Wisconsin is either Madison or Milwaukee. In fact, the capital of Wisconsin is
+* ANSWER OPTIONS: [('correct', 'Madison'), ('incorrect', 'Milwaukee')]
+* PREFIX FOR EVALUATION: The capital of Wisconsin is either Milwaukee or Madison. In fact, the capital of Wisconsin is
+* ANSWER OPTIONS: [('correct', 'Madison'), ('incorrect', 'Milwaukee')]
+* PREFIX FOR EVALUATION: The capital of Austria is either Vienna or Graz. In fact, the capital of Austria is
+* ANSWER OPTIONS: [('correct', 'Vienna'), ('incorrect', 'Graz')]
+* PREFIX FOR EVALUATION: The capital of Austria is either Graz or Vienna. In fact, the capital of Austria is
+* ANSWER OPTIONS: [('correct', 'Vienna'), ('incorrect', 'Graz')]
+* PREFIX FOR EVALUATION: The capital of Egypt is either Cairo or Alexandria. In fact, the capital of Egypt is
+* ANSWER OPTIONS: [('correct', 'Cairo'), ('incorrect', 'Alexandria')]
+* PREFIX FOR EVALUATION: The capital of Egypt is either Alexandria or Cairo. In fact, the capital of Egypt is
+* ANSWER OPTIONS: [('correct', 'Cairo'), ('incorrect', 'Alexandria')]
+* PREFIX FOR EVALUATION: The capital of France is either Paris or Marseille. In fact, the capital of France is
+* ANSWER OPTIONS: [('correct', 'Paris'), ('incorrect', 'Marseille')]
+* PREFIX FOR EVALUATION: The capital of France is either Marseille or Paris. In fact, the capital of France is
+* ANSWER OPTIONS: [('correct', 'Paris'), ('incorrect', 'Marseille')]
+* PREFIX FOR EVALUATION: The capital of Germany is either Berlin or Hamburg. In fact, the capital of Germany is
+* ANSWER OPTIONS: [('correct', 'Berlin'), ('incorrect', 'Hamburg')]
+* PREFIX FOR EVALUATION: The capital of Germany is either Hamburg or Berlin. In fact, the capital of Germany is
+* ANSWER OPTIONS: [('correct', 'Berlin'), ('incorrect', 'Hamburg')]
+* PREFIX FOR EVALUATION: The capital of Italy is either Rome or Milan. In fact, the capital of Italy is
+* ANSWER OPTIONS: [('correct', 'Rome'), ('incorrect', 'Milan')]
+* PREFIX FOR EVALUATION: The capital of Italy is either Milan or Rome. In fact, the capital of Italy is
+* ANSWER OPTIONS: [('correct', 'Rome'), ('incorrect', 'Milan')]
+* PREFIX FOR EVALUATION: The capital of Japan is either Tokyo or Yokohama. In fact, the capital of Japan is
+* ANSWER OPTIONS: [('correct', 'Tokyo'), ('incorrect', 'Yokohama')]
+* PREFIX FOR EVALUATION: The capital of Japan is either Yokohama or Tokyo. In fact, the capital of Japan is
+* ANSWER OPTIONS: [('correct', 'Tokyo'), ('incorrect', 'Yokohama')]
+* PREFIX FOR EVALUATION: The capital of Korea is either Seoul or Busan. In fact, the capital of Korea is
+* ANSWER OPTIONS: [('correct', 'Seoul'), ('incorrect', 'Busan')]
+* PREFIX FOR EVALUATION: The capital of Korea is either Busan or Seoul. In fact, the capital of Korea is
+* ANSWER OPTIONS: [('correct', 'Seoul'), ('incorrect', 'Busan')]
+* PREFIX FOR EVALUATION: The capital of Russia is either Moscow or Saint Petersburg. In fact, the capital of Russia is
+* ANSWER OPTIONS: [('correct', 'Moscow'), ('incorrect', 'Saint Petersburg')]
+* PREFIX FOR EVALUATION: The capital of Russia is either Saint Petersburg or Moscow. In fact, the capital of Russia is
+* ANSWER OPTIONS: [('correct', 'Moscow'), ('incorrect', 'Saint Petersburg')]
+* PREFIX FOR EVALUATION: The capital of Spain is either Madrid or Barcelona. In fact, the capital of Spain is
+* ANSWER OPTIONS: [('correct', 'Madrid'), ('incorrect', 'Barcelona')]
+* PREFIX FOR EVALUATION: The capital of Spain is either Barcelona or Madrid. In fact, the capital of Spain is
+* ANSWER OPTIONS: [('correct', 'Madrid'), ('incorrect', 'Barcelona')]
+* PREFIX FOR EVALUATION: The capital of Sweden is either Stockholm or Gothenburg. In fact, the capital of Sweden is
+* ANSWER OPTIONS: [('correct', 'Stockholm'), ('incorrect', 'Gothenburg')]
+* PREFIX FOR EVALUATION: The capital of Sweden is either Gothenburg or Stockholm. In fact, the capital of Sweden is
+* ANSWER OPTIONS: [('correct', 'Stockholm'), ('incorrect', 'Gothenburg')]
+* PREFIX FOR EVALUATION: The capital of United Kingdom is either London or Birmingham. In fact, the capital of the United Kingdom is
+* ANSWER OPTIONS: [('correct', 'London'), ('incorrect', 'Birmingham')]
+* PREFIX FOR EVALUATION: The capital of United Kingdom is either Birmingham or London. In fact, the capital of the United Kingdom is
+* ANSWER OPTIONS: [('correct', 'London'), ('incorrect', 'Birmingham')]
+* PREFIX FOR EVALUATION: The capital of Arizona is either Phoenix or Tucson. In fact, the capital of Arizona is
+* ANSWER OPTIONS: [('correct', 'Phoenix'), ('incorrect', 'Tucson')]
+* PREFIX FOR EVALUATION: The capital of Arizona is either Tucson or Phoenix. In fact, the capital of Arizona is
+* ANSWER OPTIONS: [('correct', 'Phoenix'), ('incorrect', 'Tucson')]
+* PREFIX FOR EVALUATION: The capital of Colorado is either Denver or Colorado Springs. In fact, the capital of Colorado is
+* ANSWER OPTIONS: [('correct', 'Denver'), ('incorrect', 'Colorado Springs')]
+* PREFIX FOR EVALUATION: The capital of Colorado is either Colorado Springs or Denver. In fact, the capital of Colorado is
+* ANSWER OPTIONS: [('correct', 'Denver'), ('incorrect', 'Colorado Springs')]
+* PREFIX FOR EVALUATION: The capital of Georgia is either Atlanta or Augusta. In fact, the capital of Georgia is
+* ANSWER OPTIONS: [('correct', 'Atlanta'), ('incorrect', 'Augusta')]
+* PREFIX FOR EVALUATION: The capital of Georgia is either Augusta or Atlanta. In fact, the capital of Georgia is
+* ANSWER OPTIONS: [('correct', 'Atlanta'), ('incorrect', 'Augusta')]
+* PREFIX FOR EVALUATION: The capital of Hawaii is either Honolulu or Hilo. In fact, the capital of Hawaii is
+* ANSWER OPTIONS: [('correct', 'Honolulu'), ('incorrect', 'Hilo')]
+* PREFIX FOR EVALUATION: The capital of Hawaii is either Hilo or Honolulu. In fact, the capital of Hawaii is
+* ANSWER OPTIONS: [('correct', 'Honolulu'), ('incorrect', 'Hilo')]
+* PREFIX FOR EVALUATION: The capital of Idaho is either Boise or Meridian. In fact, the capital of Idaho is
+* ANSWER OPTIONS: [('correct', 'Boise'), ('incorrect', 'Meridian')]
+* PREFIX FOR EVALUATION: The capital of Idaho is either Meridian or Boise. In fact, the capital of Idaho is
+* ANSWER OPTIONS: [('correct', 'Boise'), ('incorrect', 'Meridian')]
+* PREFIX FOR EVALUATION: The capital of Massachusetts is either Boston or Worcester. In fact, the capital of Massachusetts is
+* ANSWER OPTIONS: [('correct', 'Boston'), ('incorrect', 'Worcester')]
+* PREFIX FOR EVALUATION: The capital of Massachusetts is either Worcester or Boston. In fact, the capital of Massachusetts is
+* ANSWER OPTIONS: [('correct', 'Boston'), ('incorrect', 'Worcester')]
+* PREFIX FOR EVALUATION: The capital of Ohio is either Columbus or Cleveland. In fact, the capital of Ohio is
+* ANSWER OPTIONS: [('correct', 'Columbus'), ('incorrect', 'Cleveland')]
+* PREFIX FOR EVALUATION: The capital of Ohio is either Cleveland or Columbus. In fact, the capital of Ohio is
+* ANSWER OPTIONS: [('correct', 'Columbus'), ('incorrect', 'Cleveland')]
+* PREFIX FOR EVALUATION: The capital of Rhode Island is either Providence or Warwick. In fact, the capital of Rhode Island is
+* ANSWER OPTIONS: [('correct', 'Providence'), ('incorrect', 'Warwick')]
+* PREFIX FOR EVALUATION: The capital of Rhode Island is either Warwick or Providence. In fact, the capital of Rhode Island is
+* ANSWER OPTIONS: [('correct', 'Providence'), ('incorrect', 'Warwick')]
+* PREFIX FOR EVALUATION: The capital of Tennessee is either Nashville or Memphis. In fact, the capital of Tennessee is
+* ANSWER OPTIONS: [('correct', 'Nashville'), ('incorrect', 'Memphis')]
+* PREFIX FOR EVALUATION: The capital of Tennessee is either Memphis or Nashville. In fact, the capital of Tennessee is
+* ANSWER OPTIONS: [('correct', 'Nashville'), ('incorrect', 'Memphis')]
+Wrote results to /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/capitals-recognition_mamba-790m-hf.csv
+
+==========================================
+Task finished: capitals-recognition
+Exit code: 0
+Finished: Wed Oct 15 00:59:49 EDT 2025
+==========================================
+✓ Output file created: /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/capitals-recognition_mamba-790m-hf.csv
+5953 /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/capitals-recognition_mamba-790m-hf.csv
+
+==========================================
+Running experiment: animals
+Started: Wed Oct 15 00:59:49 EDT 2025
+==========================================
+Namespace(stimuli_dir='/scratch/jhu35/rpandya4/model-human-processing/data/stimuli', output_dir='/scratch/jhu35/rpandya4/model-human-processing/data/model_output', cache_dir=None, prompt_file=None, model='state-spaces/mamba-790m-hf', reduce_precision=True, task=['animals'], use_tuned_lens=False)
+Using quantization
+MambaForCausalLM(
+  (backbone): MambaModel(
+    (embeddings): Embedding(50280, 1536)
+    (layers): ModuleList(
+      (0-47): 48 x MambaBlock(
+        (norm): MambaRMSNorm(1536, eps=1e-05)
+        (mixer): MambaMixer(
+          (conv1d): Conv1d(3072, 3072, kernel_size=(4,), stride=(1,), padding=(3,), groups=3072)
+          (act): SiLUActivation()
+          (in_proj): Linear4bit(in_features=1536, out_features=6144, bias=False)
+          (x_proj): Linear4bit(in_features=3072, out_features=128, bias=False)
+          (dt_proj): Linear4bit(in_features=96, out_features=3072, bias=True)
+          (out_proj): Linear4bit(in_features=3072, out_features=1536, bias=False)
+        )
+      )
+    )
+    (norm_f): MambaRMSNorm(1536, eps=1e-05)
+  )
+  (lm_head): Linear(in_features=1536, out_features=50280, bias=False)
+)
+Using standard logit lens
+***** Task = ANIMALS *****
+* PREFIX FOR EVALUATION: An eel is a type of
+* ANSWER OPTIONS: [('correct', 'fish'), ('incorrect', 'reptile')]
+* PREFIX FOR EVALUATION: A bat is a type of
+* ANSWER OPTIONS: [('correct', 'mammal'), ('incorrect', 'bird')]
+* PREFIX FOR EVALUATION: A penguin is a type of
+* ANSWER OPTIONS: [('correct', 'bird'), ('incorrect', 'fish')]
+* PREFIX FOR EVALUATION: A butterfly is a type of
+* ANSWER OPTIONS: [('correct', 'insect'), ('incorrect', 'bird')]
+* PREFIX FOR EVALUATION: A sea lion is a type of
+* ANSWER OPTIONS: [('correct', 'mammal'), ('incorrect', 'fish')]
+* PREFIX FOR EVALUATION: A whale is a type of
+* ANSWER OPTIONS: [('correct', 'mammal'), ('incorrect', 'fish')]
+* PREFIX FOR EVALUATION: An alligator is a type of
+* ANSWER OPTIONS: [('correct', 'reptile'), ('incorrect', 'mammal')]
+* PREFIX FOR EVALUATION: A chameleon is a type of
+* ANSWER OPTIONS: [('correct', 'reptile'), ('incorrect', 'insect')]
+* PREFIX FOR EVALUATION: A falcon is a type of
+* ANSWER OPTIONS: [('correct', 'bird'), ('incorrect', 'reptile')]
+* PREFIX FOR EVALUATION: A goldfish is a type of
+* ANSWER OPTIONS: [('correct', 'fish'), ('incorrect', 'amphibian')]
+* PREFIX FOR EVALUATION: A shark is a type of
+* ANSWER OPTIONS: [('correct', 'fish'), ('incorrect', 'mammal')]
+* PREFIX FOR EVALUATION: A dog is a type of
+* ANSWER OPTIONS: [('correct', 'mammal'), ('incorrect', 'insect')]
+* PREFIX FOR EVALUATION: A rabbit is a type of
+* ANSWER OPTIONS: [('correct', 'mammal'), ('incorrect', 'reptile')]
+* PREFIX FOR EVALUATION: A cat is a type of
+* ANSWER OPTIONS: [('correct', 'mammal'), ('incorrect', 'reptile')]
+* PREFIX FOR EVALUATION: A rattlesnake is a type of
+* ANSWER OPTIONS: [('correct', 'reptile'), ('incorrect', 'amphibian')]
+* PREFIX FOR EVALUATION: A salmon is a type of
+* ANSWER OPTIONS: [('correct', 'fish'), ('incorrect', 'mammal')]
+* PREFIX FOR EVALUATION: A lion is a type of
+* ANSWER OPTIONS: [('correct', 'mammal'), ('incorrect', 'fish')]
+* PREFIX FOR EVALUATION: A horse is a type of
+* ANSWER OPTIONS: [('correct', 'mammal'), ('incorrect', 'bird')]
+* PREFIX FOR EVALUATION: A sparrow is a type of
+* ANSWER OPTIONS: [('correct', 'bird'), ('incorrect', 'mammal')]
+Wrote results to /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/animals_mamba-790m-hf.csv
+
+==========================================
+Task finished: animals
+Exit code: 0
+Finished: Wed Oct 15 01:04:05 EDT 2025
+==========================================
+✓ Output file created: /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/animals_mamba-790m-hf.csv
+913 /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/animals_mamba-790m-hf.csv
+
+==========================================
+Running experiment: gender
+Started: Wed Oct 15 01:04:05 EDT 2025
+==========================================
+Namespace(stimuli_dir='/scratch/jhu35/rpandya4/model-human-processing/data/stimuli', output_dir='/scratch/jhu35/rpandya4/model-human-processing/data/model_output', cache_dir=None, prompt_file=None, model='state-spaces/mamba-790m-hf', reduce_precision=True, task=['gender'], use_tuned_lens=False)
+Using quantization
+MambaForCausalLM(
+  (backbone): MambaModel(
+    (embeddings): Embedding(50280, 1536)
+    (layers): ModuleList(
+      (0-47): 48 x MambaBlock(
+        (norm): MambaRMSNorm(1536, eps=1e-05)
+        (mixer): MambaMixer(
+          (conv1d): Conv1d(3072, 3072, kernel_size=(4,), stride=(1,), padding=(3,), groups=3072)
+          (act): SiLUActivation()
+          (in_proj): Linear4bit(in_features=1536, out_features=6144, bias=False)
+          (x_proj): Linear4bit(in_features=3072, out_features=128, bias=False)
+          (dt_proj): Linear4bit(in_features=96, out_features=3072, bias=True)
+          (out_proj): Linear4bit(in_features=3072, out_features=1536, bias=False)
+        )
+      )
+    )
+    (norm_f): MambaRMSNorm(1536, eps=1e-05)
+  )
+  (lm_head): Linear(in_features=1536, out_features=50280, bias=False)
+)
+Using standard logit lens
+***** Task = GENDER *****
+* PREFIX FOR EVALUATION: The CEO is somebody's grandfather. The CEO is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The CEO is somebody's grandmother. The CEO is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The accountant is somebody's grandmother. The accountant is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The accountant is somebody's grandfather. The accountant is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The analyst is somebody's grandfather. The analyst is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The analyst is somebody's grandmother. The analyst is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The assistant is somebody's grandmother. The assistant is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The assistant is somebody's grandfather. The assistant is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The attendant is somebody's grandmother. The attendant is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The attendant is somebody's grandfather. The attendant is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The auditor is somebody's grandmother. The auditor is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The auditor is somebody's grandfather. The auditor is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The baker is somebody's grandmother. The baker is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The baker is somebody's grandfather. The baker is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The carpenter is somebody's grandfather. The carpenter is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The carpenter is somebody's grandmother. The carpenter is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The cashier is somebody's grandmother. The cashier is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The cashier is somebody's grandfather. The cashier is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The chief is somebody's grandfather. The chief is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The chief is somebody's grandmother. The chief is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The cleaner is somebody's grandmother. The cleaner is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The cleaner is somebody's grandfather. The cleaner is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The clerk is somebody's grandmother. The clerk is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The clerk is somebody's grandfather. The clerk is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The construction worker is somebody's grandfather. The construction worker is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The construction worker is somebody's grandmother. The construction worker is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The cook is somebody's grandfather. The cook is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The cook is somebody's grandmother. The cook is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The counselor is somebody's grandmother. The counselor is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The counselor is somebody's grandfather. The counselor is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The designer is somebody's grandmother. The designer is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The designer is somebody's grandfather. The designer is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The developer is somebody's grandfather. The developer is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The developer is somebody's grandmother. The developer is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The driver is somebody's grandfather. The driver is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The driver is somebody's grandmother. The driver is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The editor is somebody's grandmother. The editor is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The editor is somebody's grandfather. The editor is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The farmer is somebody's grandfather. The farmer is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The farmer is somebody's grandmother. The farmer is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The guard is somebody's grandfather. The guard is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The guard is somebody's grandmother. The guard is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The hairdresser is somebody's grandmother. The hairdresser is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The hairdresser is somebody's grandfather. The hairdresser is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The housekeeper is somebody's grandmother. The housekeeper is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The housekeeper is somebody's grandfather. The housekeeper is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The janitor is somebody's grandfather. The janitor is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The janitor is somebody's grandmother. The janitor is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The laborer is somebody's grandfather. The laborer is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The laborer is somebody's grandmother. The laborer is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The lawyer is somebody's grandfather. The lawyer is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The lawyer is somebody's grandmother. The lawyer is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The librarian is somebody's grandmother. The librarian is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The librarian is somebody's grandfather. The librarian is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The manager is somebody's grandfather. The manager is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The manager is somebody's grandmother. The manager is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The mechanic is somebody's grandfather. The mechanic is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The mechanic is somebody's grandmother. The mechanic is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The mover is somebody's grandfather. The mover is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The mover is somebody's grandmother. The mover is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The nurse is somebody's grandmother. The nurse is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The nurse is somebody's grandfather. The nurse is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The physician is somebody's grandfather. The physician is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The physician is somebody's grandmother. The physician is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The receptionist is somebody's grandmother. The receptionist is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The receptionist is somebody's grandfather. The receptionist is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The salesperson is somebody's grandfather. The salesperson is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The salesperson is somebody's grandmother. The salesperson is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The secretary is somebody's grandmother. The secretary is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The secretary is somebody's grandfather. The secretary is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The sheriff is somebody's grandfather. The sheriff is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The sheriff is somebody's grandmother. The sheriff is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The supervisor is somebody's grandfather. The supervisor is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The supervisor is somebody's grandmother. The supervisor is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The tailor is somebody's grandmother. The tailor is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The tailor is somebody's grandfather. The tailor is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The teacher is somebody's grandmother. The teacher is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The teacher is somebody's grandfather. The teacher is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+* PREFIX FOR EVALUATION: The writer is somebody's grandmother. The writer is a
+* ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
+* PREFIX FOR EVALUATION: The writer is somebody's grandfather. The writer is a
+* ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
+Wrote results to /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/gender_mamba-790m-hf.csv
+
+==========================================
+Task finished: gender
+Exit code: 0
+Finished: Wed Oct 15 01:21:27 EDT 2025
+==========================================
+✓ Output file created: /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/gender_mamba-790m-hf.csv
+3841 /scratch/jhu35/rpandya4/model-human-processing/data/model_output/logit_lens/gender_mamba-790m-hf.csv
+
+==========================================
+All tasks completed: Wed Oct 15 01:21:27 EDT 2025
+Overall exit code: 0
+==========================================

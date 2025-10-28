@@ -36,8 +36,8 @@ def initialize_lm(
 class LM():
     """Base model class for LMs evaluated in our experiments."""
     def __init__(
-        self, 
-        model_name: str, 
+        self,
+        model_name: str,
         use_tuned_lens: bool = False,
         cache_dir: str = None,
         **load_kwargs
@@ -46,11 +46,14 @@ class LM():
         self.model_name = model_name
         self.model_family = get_model_family(model_name)
 
+        # Check if quantization is being used
+        self.quantization_config = load_kwargs.get('quantization_config', None)
+
         # Load model.
         model = AutoModelForCausalLM.from_pretrained(
             model_name,
             cache_dir=cache_dir,
-            use_safetensors=True,
+            trust_remote_code=True,  # Required for RWKV models
             **load_kwargs
         )
         print(model)
@@ -110,60 +113,54 @@ class LM():
         * logprobs: Tensor (n_tokens x n_layers x vocab_size)
         """
         if self.use_tuned_lens:
+            # Cast hiddens to the appropriate dtype for quantized models
+            if self.quantization_config is not None:
+                target_dtype = self.lm_head.weight.dtype
+                hiddens = hiddens.to(target_dtype)
+
             logits = torch.stack([
                 torch.stack([
                     self.tuned_lens(h, i) for i, h in enumerate(tok_hiddens)
                 ])
                 for tok_hiddens in hiddens.to("cuda") # move to same device as tuned_lens
             ])
-            # Move to CPU before log_softmax to avoid OOM on large vocabs
-            logits_cpu = logits.cpu()
-            del logits
-            torch.cuda.empty_cache()
+            logprobs = logits.log_softmax(dim=-1)
         else:
-            # Use standard logit lens with layer-wise processing for memory efficiency
-            # Process one layer at a time to avoid huge intermediate tensors
+            # Use standard logit lens - process layer by layer to save memory
             n_tokens, n_layers, hidden_size = hiddens.shape
+            logits_list = []
+            logprobs_list = []
 
-            # For memory-constrained models, compute logprobs per layer to reduce peak memory
-            if self.model_family in ["mamba", "rwkv"]:
-                logits_list = []
-                logprobs_list = []
-
-                for layer_idx in range(n_layers):
-                    # Process one layer at a time
-                    layer_hiddens = hiddens[:, layer_idx:layer_idx+1, :]
-                    layer_logits = self.lm_head(self.layer_norm(layer_hiddens))
-                    # Compute logprobs immediately on CPU
-                    layer_logits_cpu = layer_logits.cpu()
-                    layer_logprobs = layer_logits_cpu.log_softmax(dim=-1)
-
-                    logits_list.append(layer_logits_cpu)
-                    logprobs_list.append(layer_logprobs)
-
-                    # Clean up
-                    del layer_logits, layer_hiddens, layer_logits_cpu, layer_logprobs
-                    torch.cuda.empty_cache()
-
-                logits_cpu = torch.cat(logits_list, dim=1)
-                logprobs = torch.cat(logprobs_list, dim=1)
-                del logits_list, logprobs_list
-                return logits_cpu, logprobs
+            # Get target dtype once
+            if self.quantization_config is not None:
+                target_dtype = self.lm_head.weight.dtype
             else:
-                # For transformers, process all at once (original behavior)
-                logits_list = []
+                target_dtype = None
 
-                for layer_idx in range(n_layers):
-                    layer_hiddens = hiddens[:, layer_idx:layer_idx+1, :]
-                    layer_logits = self.lm_head(self.layer_norm(layer_hiddens))
-                    logits_list.append(layer_logits.cpu())
-                    del layer_logits, layer_hiddens
-                    torch.cuda.empty_cache()
+            for layer_idx in range(n_layers):
+                # Process one layer at a time, move to GPU only for computation
+                layer_hidden = hiddens[:, layer_idx, :].cuda()  # (n_tokens, hidden_size)
 
-                logits_cpu = torch.cat(logits_list, dim=1)
-                del logits_list
-                logprobs = logits_cpu.log_softmax(dim=-1)
-                return logits_cpu, logprobs
+                # Cast to appropriate dtype
+                if target_dtype is not None:
+                    layer_hidden = layer_hidden.to(target_dtype)
+
+                layer_logits = self.lm_head(self.layer_norm(layer_hidden))  # (n_tokens, vocab_size)
+                layer_logprobs = layer_logits.log_softmax(dim=-1)
+
+                # Move to CPU immediately to free GPU memory
+                logits_list.append(layer_logits.cpu())
+                logprobs_list.append(layer_logprobs.cpu())
+
+                # Clear GPU cache
+                del layer_hidden, layer_logits, layer_logprobs
+                torch.cuda.empty_cache()
+
+            # Stack on CPU
+            logits = torch.stack(logits_list, dim=1)  # (n_tokens, n_layers, vocab_size)
+            logprobs = torch.stack(logprobs_list, dim=1)
+
+        return logits, logprobs
 
     def logprobs_and_logit_diffs_all_layers(
         self,
@@ -177,20 +174,23 @@ class LM():
         with torch.no_grad():
             with self.model.trace(text) as tracer:
                 # Get hidden representations.
-                # Handle different output structures for different model families
-                if self.model_family in ["mamba", "rwkv"]:
-                    # Mamba and RWKV return outputs directly without tuple wrapping
+                # For Mamba, layer.output is a tuple where [0] is the hidden state
+                if self.model_family == "mamba":
                     hiddens_l = [
-                        layer.output[0, :].unsqueeze(1) for layer in self.layers
+                        layer.output[0, :, :].unsqueeze(1) for layer in self.layers
                     ]
                 else:
-                    # Transformer models return (hidden_states, ) tuple
                     hiddens_l = [
                         layer.output[0][0, :].unsqueeze(1) for layer in self.layers
                     ]
                 # Get "raw" hiddens and "deltas" between hiddens (i-->i+1).
                 hiddens = torch.cat(hiddens_l, dim=1).save()
                 hidden_deltas = (hiddens[:, 1:, :]  - hiddens[:, :-1, :]).save()
+
+        # Move hiddens to CPU to save GPU memory during logit computation
+        hiddens = hiddens.cpu()
+        hidden_deltas = hidden_deltas.cpu()
+        torch.cuda.empty_cache()
 
         # Get logits and logprobs using logit lens or tuned lens.
         # apply_lens now returns CPU tensors to avoid OOM

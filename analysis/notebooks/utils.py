@@ -26,19 +26,20 @@ def get_vocab_size(model):
         return 50277
     elif "vit" in model.lower():
         return 16
-    
+
 N_LAYERS = {
     # language models
-    "gpt2": 12, "gpt2-medium": 24, "gpt2-xl": 48, 
+    "gpt2": 12, "gpt2-medium": 24, "gpt2-xl": 48,
     "Llama-2-7b-hf": 32, "Llama-2-13b-hf": 40, "Llama-2-70b-hf": 80,
     "Llama-3.1-8B": 32, "Llama-3.1-70B": 80, "Llama-3.1-405B": 126,
     "gemma-2-2b": 26, "gemma-2-9b": 42, "gemma-2-27b": 46,
     "OLMo-2-1124-7B": 32, "OLMo-2-1124-13B": 40, "OLMo-2-0325-32B": 64,
     "Falcon3-1B-Base": 18, "Falcon3-3B-Base": 22, "Falcon3-10B-Base": 40,
     # SSM models
-      "mamba-130m-hf": 24, "mamba-370m-hf": 48, "mamba-790m-hf": 48,
-      "mamba-1.4b-hf": 48, "mamba-2.8b-hf": 64,
-      "rwkv-raven-1b5": 24, "rwkv7-1.5B-world": 24,
+    "mamba-130m-hf": 24, "mamba-370m-hf": 48, "mamba-790m-hf": 48,
+    "mamba-1.4b-hf": 48, "mamba-2.8b-hf": 64,
+    # RWKV models
+    "rwkv-4-169m-pile": 12, "rwkv-4-430m-pile": 24, "rwkv-4-1b5-pile": 24,
     # vision models
     "vit_small_patch16_224": 12, "vit_base_patch16_224": 12
 }
@@ -50,7 +51,9 @@ MODELS = [
   "gemma-2-2b", "gemma-2-9b", "gemma-2-27b", "mamba-130m-hf", 
   "mamba-370m-hf", "mamba-2.8b-hf", "rwkv-raven-1b5",
   "OLMo-2-1124-7B", "OLMo-2-1124-13B", "OLMo-2-0325-32B",
-  "Falcon3-1B-Base", "Falcon3-3B-Base", "Falcon3-10B-Base"
+  "Falcon3-1B-Base", "Falcon3-3B-Base", "Falcon3-10B-Base",
+  "mamba-130m-hf", "mamba-370m-hf", "mamba-790m-hf", "mamba-1.4b-hf",
+  "rwkv-4-169m-pile", "rwkv-4-430m-pile", "rwkv-4-1b5-pile"
 ]
 VISION_MODELS = ["vit_small_patch16_224", "vit_base_patch16_224"]
 MODEL_FAMILY_MAP = {
@@ -94,11 +97,35 @@ def get_model_size(model):
         return 0.022
     elif model == "vit_base_patch16_224":
         return 0.086
+    elif "mamba" in model.lower():
+        # Handle mamba models: extract size from model name
+        if "130m" in model.lower():
+            return 0.13
+        elif "370m" in model.lower():
+            return 0.37
+        elif "790m" in model.lower():
+            return 0.79
+        elif "1.4b" in model.lower():
+            return 1.4
+        elif "2.8b" in model.lower():
+            return 2.8
+    elif "rwkv" in model.lower():
+        # Handle RWKV models: extract size from model name
+        if "169m" in model.lower():
+            return 0.169
+        elif "430m" in model.lower():
+            return 0.43
+        elif "1b5" in model.lower() or "1.5b" in model.lower():
+            return 1.5
+        elif "3b" in model.lower():
+            return 3.0
     else:
         splits = model.lower().split("-")
         for s in splits:
             if s.endswith("b"):
-                return int(s.replace("b", ""))
+                return float(s.replace("b", ""))
+        # If no size found, return None to allow debugging
+        return None
             
 def get_model_family(model):
     for orig_name, pretty_name in MODEL_FAMILY_MAP.items():
@@ -282,16 +309,18 @@ greens = sns.color_palette("Greens")
 reds = sns.color_palette("Reds")
 purples = sns.color_palette("Purples")
 browns = sns.color_palette("BrBG")
-yellows = sns.color_palette("YlOrBr")
+greys = sns.color_palette("Greys")
+teals = sns.color_palette("YlGnBu")
 MODEL_PAL = {
-    "gpt2": blues[0], "gpt2-medium": blues[1], "gpt2-xl": blues[2], 
+    "gpt2": blues[0], "gpt2-medium": blues[1], "gpt2-xl": blues[2],
     "Llama-2-7b-hf": oranges[0], "Llama-2-13b-hf": oranges[1], "Llama-2-70b-hf": oranges[2],
     "Llama-3.1-8B": greens[0], "Llama-3.1-70B": greens[1], "Llama-3.1-405B": greens[2],
     "gemma-2-2b": reds[0], "gemma-2-9b": reds[1], "gemma-2-27b": reds[2],
     "OLMo-2-1124-7B": purples[0], "OLMo-2-1124-13B": purples[1], "OLMo-2-0325-32B": purples[2],
     "Falcon3-1B-Base": browns[2], "Falcon3-3B-Base": browns[1], "Falcon3-10B-Base": browns[0],
-    "mamba-130m-hf": yellows[0], "mamba-370m-hf": yellows[1], "mamba-2.8b-hf": yellows[2],
-    "rwkv-raven-1b5": yellows[3],
+    "mamba-130m-hf": greys[1], "mamba-370m-hf": greys[2], "mamba-790m-hf": greys[3],
+    "mamba-1.4b-hf": greys[4], "mamba-2.8b-hf": greys[5],
+    "rwkv-4-169m-pile": teals[1], "rwkv-4-430m-pile": teals[2], "rwkv-4-1b5-pile": teals[3],
     "vit_small_patch16_224": "lightpink", "vit_base_patch16_224": "palevioletred",
     "Human": "k"
 }
@@ -302,9 +331,10 @@ MODEL_MAP = {
     "gemma-2-2b": "Gemma-2 2B", "gemma-2-9b": "Gemma-2 9B", "gemma-2-27b": "Gemma-2 27B",
     "OLMo-2-1124-7B": "OLMo-2 7B", "OLMo-2-1124-13B": "OLMo-2 13B", "OLMo-2-0325-32B": "OLMo-2 32B",
     "Falcon3-1B-Base": "Falcon-3 1B", "Falcon3-3B-Base": "Falcon-3 3B", "Falcon3-10B-Base": "Falcon-3 10B",
-    "mamba-130m-hf": "Mamba 130M", "mamba-370m-hf": "Mamba 370M", "mamba-2.8b-hf": "Mamba 2.8B",
-    "rwkv-raven-1b5": "RWKV 1.5B",
-    "vit_small_patch16_224": "ViT Small", "vit_base_patch16_224": "ViT Base", 
+    "mamba-130m-hf": "Mamba 130M", "mamba-370m-hf": "Mamba 370M", "mamba-790m-hf": "Mamba 790M",
+    "mamba-1.4b-hf": "Mamba 1.4B", "mamba-2.8b-hf": "Mamba 2.8B",
+    "rwkv-4-169m-pile": "RWKV 169M", "rwkv-4-430m-pile": "RWKV 430M", "rwkv-4-1b5-pile": "RWKV 1.5B",
+    "vit_small_patch16_224": "ViT Small", "vit_base_patch16_224": "ViT Base",
     "Human": "Human"
 }
 
