@@ -58,14 +58,17 @@ class LM():
         )
         print(model)
 
+        # Store device for later use
+        self.device = next(model.parameters()).device
+
         # Load pretrained tuned lens.
         self.use_tuned_lens = use_tuned_lens
         if use_tuned_lens:
             print("Initializing pretrained tuned lens")
             self.tuned_lens = TunedLens.from_model_and_pretrained(
-                model, 
+                model,
                 cache_dir=cache_dir
-            ).to("cuda")
+            ).to(self.device)
         else:
             print("Using standard logit lens")
 
@@ -126,43 +129,46 @@ class LM():
                 torch.stack([
                     self.tuned_lens(h, i) for i, h in enumerate(tok_hiddens)
                 ])
-                for tok_hiddens in hiddens.to("cuda") # move to same device as tuned_lens
+                for tok_hiddens in hiddens.to(self.device)
             ])
             logprobs = logits.log_softmax(dim=-1)
         else:
-            # Use standard logit lens - process layer by layer to save memory
+            # Use standard logit lens
             n_tokens, n_layers, hidden_size = hiddens.shape
-            logits_list = []
-            logprobs_list = []
 
-            # Get target dtype once
+            # Only use layer-by-layer processing for quantized models to save memory
+            # For regular models, process all at once on GPU (much faster)
             if self.quantization_config is not None:
+                # Memory-efficient layer-by-layer processing for quantized models
+                logits_list = []
+                logprobs_list = []
                 target_dtype = self.lm_head.weight.dtype
+
+                for layer_idx in range(n_layers):
+                    layer_hidden = hiddens[:, layer_idx, :].to(self.device).to(target_dtype)
+                    layer_logits = self.lm_head(self.layer_norm(layer_hidden))
+                    layer_logprobs = layer_logits.log_softmax(dim=-1)
+                    logits_list.append(layer_logits.cpu())
+                    logprobs_list.append(layer_logprobs.cpu())
+                    del layer_hidden, layer_logits, layer_logprobs
+                    torch.cuda.empty_cache()
+
+                logits = torch.stack(logits_list, dim=1)
+                logprobs = torch.stack(logprobs_list, dim=1)
             else:
-                target_dtype = None
+                # Fast path: process all layers at once on GPU
+                hiddens_gpu = hiddens.to(self.device)  # (n_tokens, n_layers, hidden_size)
 
-            for layer_idx in range(n_layers):
-                # Process one layer at a time, move to GPU only for computation
-                layer_hidden = hiddens[:, layer_idx, :].cuda()  # (n_tokens, hidden_size)
+                # Apply layer norm and lm_head to all layers
+                # Reshape to process all layers together
+                hiddens_reshaped = hiddens_gpu.reshape(-1, hidden_size)  # (n_tokens * n_layers, hidden_size)
+                logits_flat = self.lm_head(self.layer_norm(hiddens_reshaped))  # (n_tokens * n_layers, vocab_size)
+                logits = logits_flat.reshape(n_tokens, n_layers, -1)  # (n_tokens, n_layers, vocab_size)
+                logprobs = logits.log_softmax(dim=-1)
 
-                # Cast to appropriate dtype
-                if target_dtype is not None:
-                    layer_hidden = layer_hidden.to(target_dtype)
-
-                layer_logits = self.lm_head(self.layer_norm(layer_hidden))  # (n_tokens, vocab_size)
-                layer_logprobs = layer_logits.log_softmax(dim=-1)
-
-                # Move to CPU immediately to free GPU memory
-                logits_list.append(layer_logits.cpu())
-                logprobs_list.append(layer_logprobs.cpu())
-
-                # Clear GPU cache
-                del layer_hidden, layer_logits, layer_logprobs
-                torch.cuda.empty_cache()
-
-            # Stack on CPU
-            logits = torch.stack(logits_list, dim=1)  # (n_tokens, n_layers, vocab_size)
-            logprobs = torch.stack(logprobs_list, dim=1)
+                # Move back to CPU to match expected behavior
+                logits = logits.cpu()
+                logprobs = logprobs.cpu()
 
         return logits, logprobs
 
@@ -194,23 +200,14 @@ class LM():
         # Move hiddens to CPU to save GPU memory during logit computation
         hiddens = hiddens.cpu()
         hidden_deltas = hidden_deltas.cpu()
-        torch.cuda.empty_cache()
 
         # Get logits and logprobs using logit lens or tuned lens.
-        # apply_lens now returns CPU tensors to avoid OOM
-        # Process hiddens and hidden_deltas sequentially to reduce peak memory
         logits, logprobs = self.apply_lens(hiddens)
-
-        # Explicitly delete hiddens from GPU before processing deltas
         del hiddens
-        torch.cuda.empty_cache()
 
         # Now process hidden_deltas
         logits_deltas, logprobs_deltas = self.apply_lens(hidden_deltas)
-
-        # Clean up deltas
         del hidden_deltas
-        torch.cuda.empty_cache()
 
         return logits, logprobs, logits_deltas, logprobs_deltas
 

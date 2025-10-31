@@ -1,22 +1,22 @@
 ==========================================
-Running ALL tasks for model: EleutherAI/pythia-70m
-Job ID: 567186
-Node: c009
+Running ALL tasks for model: EleutherAI/pythia-12b
+Job ID: 567258
+Node: c007
 ==========================================
 GPU Information:
-Fri Oct 31 00:46:07 2025       
+Fri Oct 31 13:42:13 2025       
 +-----------------------------------------------------------------------------------------+
-| NVIDIA-SMI 570.86.15              Driver Version: 570.86.15      CUDA Version: 12.8     |
-|-----------------------------------------+------------------------+----------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
 | GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
 | Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
 |                                         |                        |               MIG M. |
 |=========================================+========================+======================|
-|   0  NVIDIA A100-SXM4-80GB          On  |   00000000:C3:00.0 Off |                    0 |
-| N/A   28C    P0             59W /  400W |       1MiB /  81920MiB |      0%      Default |
+|   0  NVIDIA A100-SXM4-80GB          Off |   00000000:C3:00.0 Off |                    0 |
+| N/A   27C    P0             54W /  400W |       0MiB /  81920MiB |      0%      Default |
 |                                         |                        |             Disabled |
 +-----------------------------------------+------------------------+----------------------+
-                                                                                         
+
 +-----------------------------------------------------------------------------------------+
 | Processes:                                                                              |
 |  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
@@ -28,32 +28,32 @@ Fri Oct 31 00:46:07 2025
 ==========================================
 Running task: capitals-recall
 ==========================================
-Namespace(stimuli_dir='data/stimuli', output_dir='data/model_output', cache_dir='/scratch/jhu35/rpandya4/huggingface_cache', prompt_file=None, model='EleutherAI/pythia-70m', reduce_precision=False, task=['capitals-recall'], use_tuned_lens=False)
+Namespace(stimuli_dir='data/stimuli', output_dir='data/model_output', cache_dir='/scratch/jhu35/rpandya4/huggingface_cache', prompt_file=None, model='EleutherAI/pythia-12b', reduce_precision=False, task=['capitals-recall'], use_tuned_lens=False)
 GPTNeoXForCausalLM(
   (gpt_neox): GPTNeoXModel(
-    (embed_in): Embedding(50304, 512)
+    (embed_in): Embedding(50688, 5120)
     (emb_dropout): Dropout(p=0.0, inplace=False)
     (layers): ModuleList(
-      (0-5): 6 x GPTNeoXLayer(
-        (input_layernorm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
-        (post_attention_layernorm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (0-35): 36 x GPTNeoXLayer(
+        (input_layernorm): LayerNorm((5120,), eps=1e-05, elementwise_affine=True)
+        (post_attention_layernorm): LayerNorm((5120,), eps=1e-05, elementwise_affine=True)
         (post_attention_dropout): Dropout(p=0.0, inplace=False)
         (post_mlp_dropout): Dropout(p=0.0, inplace=False)
         (attention): GPTNeoXAttention(
-          (query_key_value): Linear(in_features=512, out_features=1536, bias=True)
-          (dense): Linear(in_features=512, out_features=512, bias=True)
+          (query_key_value): Linear(in_features=5120, out_features=15360, bias=True)
+          (dense): Linear(in_features=5120, out_features=5120, bias=True)
         )
         (mlp): GPTNeoXMLP(
-          (dense_h_to_4h): Linear(in_features=512, out_features=2048, bias=True)
-          (dense_4h_to_h): Linear(in_features=2048, out_features=512, bias=True)
+          (dense_h_to_4h): Linear(in_features=5120, out_features=20480, bias=True)
+          (dense_4h_to_h): Linear(in_features=20480, out_features=5120, bias=True)
           (act): GELUActivation()
         )
       )
     )
-    (final_layer_norm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+    (final_layer_norm): LayerNorm((5120,), eps=1e-05, elementwise_affine=True)
     (rotary_emb): GPTNeoXRotaryEmbedding()
   )
-  (embed_out): Linear(in_features=512, out_features=50304, bias=False)
+  (embed_out): Linear(in_features=5120, out_features=50688, bias=False)
 )
 Using standard logit lens
 No pad token found; setting pad token to eos token
@@ -182,38 +182,38 @@ No pad token found; setting pad token to eos token
 * ANSWER OPTIONS: [('correct', 'Providence'), ('incorrect', 'Warwick')]
 * PREFIX FOR EVALUATION: The capital of Tennessee is
 * ANSWER OPTIONS: [('correct', 'Nashville'), ('incorrect', 'Memphis')]
-Wrote results to data/model_output/logit_lens/capitals-recall_pythia-70m.csv
+Wrote results to data/model_output/logit_lens/capitals-recall_pythia-12b.csv
 Task capitals-recall complete!
 
 ==========================================
 Running task: capitals-recognition
 ==========================================
-Namespace(stimuli_dir='data/stimuli', output_dir='data/model_output', cache_dir='/scratch/jhu35/rpandya4/huggingface_cache', prompt_file=None, model='EleutherAI/pythia-70m', reduce_precision=False, task=['capitals-recognition'], use_tuned_lens=False)
+Namespace(stimuli_dir='data/stimuli', output_dir='data/model_output', cache_dir='/scratch/jhu35/rpandya4/huggingface_cache', prompt_file=None, model='EleutherAI/pythia-12b', reduce_precision=False, task=['capitals-recognition'], use_tuned_lens=False)
 GPTNeoXForCausalLM(
   (gpt_neox): GPTNeoXModel(
-    (embed_in): Embedding(50304, 512)
+    (embed_in): Embedding(50688, 5120)
     (emb_dropout): Dropout(p=0.0, inplace=False)
     (layers): ModuleList(
-      (0-5): 6 x GPTNeoXLayer(
-        (input_layernorm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
-        (post_attention_layernorm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (0-35): 36 x GPTNeoXLayer(
+        (input_layernorm): LayerNorm((5120,), eps=1e-05, elementwise_affine=True)
+        (post_attention_layernorm): LayerNorm((5120,), eps=1e-05, elementwise_affine=True)
         (post_attention_dropout): Dropout(p=0.0, inplace=False)
         (post_mlp_dropout): Dropout(p=0.0, inplace=False)
         (attention): GPTNeoXAttention(
-          (query_key_value): Linear(in_features=512, out_features=1536, bias=True)
-          (dense): Linear(in_features=512, out_features=512, bias=True)
+          (query_key_value): Linear(in_features=5120, out_features=15360, bias=True)
+          (dense): Linear(in_features=5120, out_features=5120, bias=True)
         )
         (mlp): GPTNeoXMLP(
-          (dense_h_to_4h): Linear(in_features=512, out_features=2048, bias=True)
-          (dense_4h_to_h): Linear(in_features=2048, out_features=512, bias=True)
+          (dense_h_to_4h): Linear(in_features=5120, out_features=20480, bias=True)
+          (dense_4h_to_h): Linear(in_features=20480, out_features=5120, bias=True)
           (act): GELUActivation()
         )
       )
     )
-    (final_layer_norm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+    (final_layer_norm): LayerNorm((5120,), eps=1e-05, elementwise_affine=True)
     (rotary_emb): GPTNeoXRotaryEmbedding()
   )
-  (embed_out): Linear(in_features=512, out_features=50304, bias=False)
+  (embed_out): Linear(in_features=5120, out_features=50688, bias=False)
 )
 Using standard logit lens
 No pad token found; setting pad token to eos token
@@ -466,38 +466,38 @@ No pad token found; setting pad token to eos token
 * ANSWER OPTIONS: [('correct', 'Nashville'), ('incorrect', 'Memphis')]
 * PREFIX FOR EVALUATION: The capital of Tennessee is either Memphis or Nashville. In fact, the capital of Tennessee is
 * ANSWER OPTIONS: [('correct', 'Nashville'), ('incorrect', 'Memphis')]
-Wrote results to data/model_output/logit_lens/capitals-recognition_pythia-70m.csv
+Wrote results to data/model_output/logit_lens/capitals-recognition_pythia-12b.csv
 Task capitals-recognition complete!
 
 ==========================================
 Running task: animals
 ==========================================
-Namespace(stimuli_dir='data/stimuli', output_dir='data/model_output', cache_dir='/scratch/jhu35/rpandya4/huggingface_cache', prompt_file=None, model='EleutherAI/pythia-70m', reduce_precision=False, task=['animals'], use_tuned_lens=False)
+Namespace(stimuli_dir='data/stimuli', output_dir='data/model_output', cache_dir='/scratch/jhu35/rpandya4/huggingface_cache', prompt_file=None, model='EleutherAI/pythia-12b', reduce_precision=False, task=['animals'], use_tuned_lens=False)
 GPTNeoXForCausalLM(
   (gpt_neox): GPTNeoXModel(
-    (embed_in): Embedding(50304, 512)
+    (embed_in): Embedding(50688, 5120)
     (emb_dropout): Dropout(p=0.0, inplace=False)
     (layers): ModuleList(
-      (0-5): 6 x GPTNeoXLayer(
-        (input_layernorm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
-        (post_attention_layernorm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (0-35): 36 x GPTNeoXLayer(
+        (input_layernorm): LayerNorm((5120,), eps=1e-05, elementwise_affine=True)
+        (post_attention_layernorm): LayerNorm((5120,), eps=1e-05, elementwise_affine=True)
         (post_attention_dropout): Dropout(p=0.0, inplace=False)
         (post_mlp_dropout): Dropout(p=0.0, inplace=False)
         (attention): GPTNeoXAttention(
-          (query_key_value): Linear(in_features=512, out_features=1536, bias=True)
-          (dense): Linear(in_features=512, out_features=512, bias=True)
+          (query_key_value): Linear(in_features=5120, out_features=15360, bias=True)
+          (dense): Linear(in_features=5120, out_features=5120, bias=True)
         )
         (mlp): GPTNeoXMLP(
-          (dense_h_to_4h): Linear(in_features=512, out_features=2048, bias=True)
-          (dense_4h_to_h): Linear(in_features=2048, out_features=512, bias=True)
+          (dense_h_to_4h): Linear(in_features=5120, out_features=20480, bias=True)
+          (dense_4h_to_h): Linear(in_features=20480, out_features=5120, bias=True)
           (act): GELUActivation()
         )
       )
     )
-    (final_layer_norm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+    (final_layer_norm): LayerNorm((5120,), eps=1e-05, elementwise_affine=True)
     (rotary_emb): GPTNeoXRotaryEmbedding()
   )
-  (embed_out): Linear(in_features=512, out_features=50304, bias=False)
+  (embed_out): Linear(in_features=5120, out_features=50688, bias=False)
 )
 Using standard logit lens
 No pad token found; setting pad token to eos token
@@ -540,38 +540,38 @@ No pad token found; setting pad token to eos token
 * ANSWER OPTIONS: [('correct', 'mammal'), ('incorrect', 'bird')]
 * PREFIX FOR EVALUATION: A sparrow is a type of
 * ANSWER OPTIONS: [('correct', 'bird'), ('incorrect', 'mammal')]
-Wrote results to data/model_output/logit_lens/animals_pythia-70m.csv
+Wrote results to data/model_output/logit_lens/animals_pythia-12b.csv
 Task animals complete!
 
 ==========================================
 Running task: gender
 ==========================================
-Namespace(stimuli_dir='data/stimuli', output_dir='data/model_output', cache_dir='/scratch/jhu35/rpandya4/huggingface_cache', prompt_file=None, model='EleutherAI/pythia-70m', reduce_precision=False, task=['gender'], use_tuned_lens=False)
+Namespace(stimuli_dir='data/stimuli', output_dir='data/model_output', cache_dir='/scratch/jhu35/rpandya4/huggingface_cache', prompt_file=None, model='EleutherAI/pythia-12b', reduce_precision=False, task=['gender'], use_tuned_lens=False)
 GPTNeoXForCausalLM(
   (gpt_neox): GPTNeoXModel(
-    (embed_in): Embedding(50304, 512)
+    (embed_in): Embedding(50688, 5120)
     (emb_dropout): Dropout(p=0.0, inplace=False)
     (layers): ModuleList(
-      (0-5): 6 x GPTNeoXLayer(
-        (input_layernorm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
-        (post_attention_layernorm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (0-35): 36 x GPTNeoXLayer(
+        (input_layernorm): LayerNorm((5120,), eps=1e-05, elementwise_affine=True)
+        (post_attention_layernorm): LayerNorm((5120,), eps=1e-05, elementwise_affine=True)
         (post_attention_dropout): Dropout(p=0.0, inplace=False)
         (post_mlp_dropout): Dropout(p=0.0, inplace=False)
         (attention): GPTNeoXAttention(
-          (query_key_value): Linear(in_features=512, out_features=1536, bias=True)
-          (dense): Linear(in_features=512, out_features=512, bias=True)
+          (query_key_value): Linear(in_features=5120, out_features=15360, bias=True)
+          (dense): Linear(in_features=5120, out_features=5120, bias=True)
         )
         (mlp): GPTNeoXMLP(
-          (dense_h_to_4h): Linear(in_features=512, out_features=2048, bias=True)
-          (dense_4h_to_h): Linear(in_features=2048, out_features=512, bias=True)
+          (dense_h_to_4h): Linear(in_features=5120, out_features=20480, bias=True)
+          (dense_4h_to_h): Linear(in_features=20480, out_features=5120, bias=True)
           (act): GELUActivation()
         )
       )
     )
-    (final_layer_norm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+    (final_layer_norm): LayerNorm((5120,), eps=1e-05, elementwise_affine=True)
     (rotary_emb): GPTNeoXRotaryEmbedding()
   )
-  (embed_out): Linear(in_features=512, out_features=50304, bias=False)
+  (embed_out): Linear(in_features=5120, out_features=50688, bias=False)
 )
 Using standard logit lens
 No pad token found; setting pad token to eos token
@@ -736,38 +736,38 @@ No pad token found; setting pad token to eos token
 * ANSWER OPTIONS: [('correct', 'woman'), ('incorrect', 'man')]
 * PREFIX FOR EVALUATION: The writer is somebody's grandfather. The writer is a
 * ANSWER OPTIONS: [('correct', 'man'), ('incorrect', 'woman')]
-Wrote results to data/model_output/logit_lens/gender_pythia-70m.csv
+Wrote results to data/model_output/logit_lens/gender_pythia-12b.csv
 Task gender complete!
 
 ==========================================
 Running task: syllogism
 ==========================================
-Namespace(stimuli_dir='data/stimuli', output_dir='data/model_output', cache_dir='/scratch/jhu35/rpandya4/huggingface_cache', prompt_file=None, model='EleutherAI/pythia-70m', reduce_precision=False, task=['syllogism'], use_tuned_lens=False)
+Namespace(stimuli_dir='data/stimuli', output_dir='data/model_output', cache_dir='/scratch/jhu35/rpandya4/huggingface_cache', prompt_file=None, model='EleutherAI/pythia-12b', reduce_precision=False, task=['syllogism'], use_tuned_lens=False)
 GPTNeoXForCausalLM(
   (gpt_neox): GPTNeoXModel(
-    (embed_in): Embedding(50304, 512)
+    (embed_in): Embedding(50688, 5120)
     (emb_dropout): Dropout(p=0.0, inplace=False)
     (layers): ModuleList(
-      (0-5): 6 x GPTNeoXLayer(
-        (input_layernorm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
-        (post_attention_layernorm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (0-35): 36 x GPTNeoXLayer(
+        (input_layernorm): LayerNorm((5120,), eps=1e-05, elementwise_affine=True)
+        (post_attention_layernorm): LayerNorm((5120,), eps=1e-05, elementwise_affine=True)
         (post_attention_dropout): Dropout(p=0.0, inplace=False)
         (post_mlp_dropout): Dropout(p=0.0, inplace=False)
         (attention): GPTNeoXAttention(
-          (query_key_value): Linear(in_features=512, out_features=1536, bias=True)
-          (dense): Linear(in_features=512, out_features=512, bias=True)
+          (query_key_value): Linear(in_features=5120, out_features=15360, bias=True)
+          (dense): Linear(in_features=5120, out_features=5120, bias=True)
         )
         (mlp): GPTNeoXMLP(
-          (dense_h_to_4h): Linear(in_features=512, out_features=2048, bias=True)
-          (dense_4h_to_h): Linear(in_features=2048, out_features=512, bias=True)
+          (dense_h_to_4h): Linear(in_features=5120, out_features=20480, bias=True)
+          (dense_4h_to_h): Linear(in_features=20480, out_features=5120, bias=True)
           (act): GELUActivation()
         )
       )
     )
-    (final_layer_norm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+    (final_layer_norm): LayerNorm((5120,), eps=1e-05, elementwise_affine=True)
     (rotary_emb): GPTNeoXRotaryEmbedding()
   )
-  (embed_out): Linear(in_features=512, out_features=50304, bias=False)
+  (embed_out): Linear(in_features=5120, out_features=50688, bias=False)
 )
 Using standard logit lens
 No pad token found; setting pad token to eos token
@@ -2500,7 +2500,7 @@ No threck are grosp.
 Conclusion: No threck are crand.
 Answer: The argument is
 * ANSWER OPTIONS: [('correct', 'invalid'), ('incorrect', 'valid')]
-Wrote results to data/model_output/logit_lens/syllogism_pythia-70m.csv
+Wrote results to data/model_output/logit_lens/syllogism_pythia-12b.csv
 Task syllogism complete!
 
 ==========================================
