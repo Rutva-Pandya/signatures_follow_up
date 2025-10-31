@@ -27,7 +27,7 @@ module load anaconda3/2024.02-1
 
 # Activate conda environment
 source $(conda info --base)/etc/profile.d/conda.sh
-conda activate model-human-processing
+conda activate mamba_exp
 
 # Set up paths
 WORK_DIR="/scratch/jhu35/rpandya4/model-human-processing"
