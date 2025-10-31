@@ -54,12 +54,10 @@ def get_rank(x, indices, one_indexed=True):
 
 def get_model_family(model_name):
     model_name = model_name.lower()
-    families = ["llama", "olmo", "gemma", "gpt", "falcon", "mamba", "rwkv"]
+    families = ["llama", "olmo", "gemma", "pythia", "gpt", "falcon", "mamba", "rwkv"]
     for family in families:
         if family in model_name:
             return family
-        else:
-            continue
     raise ValueError(f"Unrecognized model family for {model_name}")
 
 def get_vals_of_tokens(vals, tokens):

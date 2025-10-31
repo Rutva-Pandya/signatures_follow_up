@@ -87,6 +87,10 @@ class LM():
             self.layers = self.model.transformer.h
             self.layer_norm = self.model.transformer.ln_f
             self.lm_head = self.model.lm_head
+        elif self.model_family == "pythia":
+            self.layers = self.model.gpt_neox.layers
+            self.layer_norm = self.model.gpt_neox.final_layer_norm
+            self.lm_head = self.model.embed_out
         elif self.model_family == "mamba":
             self.layers = self.model.backbone.layers
             self.layer_norm = self.model.backbone.norm_f
