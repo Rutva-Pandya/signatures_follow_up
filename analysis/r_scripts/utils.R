@@ -11,7 +11,10 @@ MODELS <- c(
   "Llama-3.1-8B", "Llama-3.1-70B", "Llama-3.1-405B",
   "gemma-2-2b", "gemma-2-9b", "gemma-2-27b",
   "OLMo-2-1124-7B", "OLMo-2-1124-13B", "OLMo-2-0325-32B",
-  "Falcon3-1B-Base", "Falcon3-3B-Base", "Falcon3-10B-Base"
+  "Falcon3-1B-Base", "Falcon3-3B-Base", "Falcon3-10B-Base",
+  "pythia-160m", "pythia-1.4b", "pythia-6.9b", "pythia-12b",
+  "mamba-130m-hf", "mamba-370m-hf", "mamba-790m-hf", "mamba-1.4b-hf",
+  "rwkv-4-169m-pile", "rwkv-4-430m-pile", "rwkv-4-1b5-pile"
 )
 
 OUT_DIR <- "analysis/r_outputs"
